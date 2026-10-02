@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>留一副碗筷</title>
+<meta name="description" content="一张永远留着空位的桌子。为不在场的人摆一副碗筷，留一句话。">
+<style>
+:root{
+  --paper:#FBFAF7;
+  --wood:#F5E7D2;
+  --wood-line:#D9C4A6;
+  --card:#F1EFE8;
+  --ink:#2C2C2A;
+  --ink-2:#5F5E5A;
+  --ink-3:#8A8780;
+  --accent:#993C1D;
+  --accent-line:#D85A30;
+  --bowl:#FFFFFF;
+  --bowl-line:#B4B2A9;
+  --empty-line:#C9C5BB;
+  --hairline:rgba(44,44,42,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+}
+main{
+  max-width:600px;
+  margin:0 auto;
+  padding:56px 20px 80px;
+}
+h1{
+  font-size:27px;
+  font-weight:500;
+  letter-spacing:.06em;
+  margin:14px 0 0;
+}
+.eyebrow{
+  font-size:12px;
+  color:var(--ink-3);
+  letter-spacing:.14em;
+  margin:0;
+}
+.lede{
+  margin:20px 0 0;
+  color:var(--ink-2);
+  font-size:14px;
+}
+.lede em{font-style:normal;color:var(--ink)}
+
+/* 桌子 */
+.stage{
+  margin:44px 0 0;
+  display:flex;
+  justify-content:center;
+}
+.table-scaler{
+  width:380px;
+  transform-origin:top center;
+}
+.table{
+  position:relative;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  background:var(--wood);
+  border:1px solid var(--wood-line);
+}
+.center{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  pointer-events:none;
+}
+.center .no{
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.08em;
+}
+.center .left{
+  font-size:12px;
+  color:#8A6A45;
+  margin-top:5px;
+}
+.seat{
+  position:absolute;
+  left:50%;top:50%;
+  width:56px;height:56px;
+  margin:-28px 0 0 -28px;
+}
+.seat svg{display:block;width:56px;height:56px}
+.seat.tap{cursor:pointer}
+.seat.tap .hit{transition:opacity .18s ease}
+.seat.tap:hover .hit{opacity:.55}
+
+/* 读出区 */
+.readout{
+  margin:26px auto 0;
+  max-width:420px;
+  min-height:58px;
+  padding:13px 16px;
+  background:var(--card);
+  border-radius:10px;
+  text-align:center;
+}
+.readout .q{
+  font-size:14px;
+  line-height:1.7;
+}
+.readout .by{
+  font-size:12px;
+  color:var(--ink-3);
+  margin-top:5px;
+}
+.readout.idle .q{color:var(--ink-3)}
+
+/* 表单 */
+.form{
+  margin:16px auto 0;
+  max-width:420px;
+  padding:18px;
+  border:1px solid var(--hairline);
+  border-radius:12px;
+  background:#fff;
+}
+.form[hidden]{display:none}
+.form label{
+  display:block;
+  font-size:12px;
+  color:var(--ink-3);
+  letter-spacing:.08em;
+  margin-bottom:7px;
+}
+.form .field{margin-bottom:14px}
+.form input,.form textarea{
+  width:100%;
+  font-family:inherit;
+  font-size:14px;
+  color:var(--ink);
+  background:#fff;
+  border:1px solid var(--hairline);
+  border-radius:8px;
+  padding:9px 11px;
+  outline:none;
+}
+.form input:focus,.form textarea:focus{border-color:var(--accent-line)}
+.form textarea{resize:none;line-height:1.7;height:62px}
+.form .row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:4px;
+}
+.btn{
+  font-family:inherit;
+  font-size:14px;
+  border-radius:8px;
+  padding:9px 18px;
+  cursor:pointer;
+  border:1px solid var(--accent-line);
+  background:var(--accent);
+  color:#fff;
+}
+.btn.ghost{
+  background:transparent;
+  color:var(--ink-2);
+  border:1px solid var(--hairline);
+}
+.counter{
+  font-size:12px;
+  color:var(--ink-3);
+  margin-left:auto;
+}
+
+/* 落筷动画 */
+@keyframes drop{
+  from{opacity:0;transform:translateY(-7px)}
+  to{opacity:1;transform:none}
+}
+.seat.new{animation:drop .55s ease both}
+
+/* 正文区块 */
+.block{
+  margin-top:52px;
+  padding-top:26px;
+  border-top:1px solid var(--hairline);
+}
+.block h2{
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.1em;
+  color:var(--ink-2);
+  margin:0 0 12px;
+}
+.block p{margin:0 0 12px;font-size:14px}
+.truth{
+  font-size:16px;
+  line-height:1.9;
+  color:var(--ink);
+}
+.truth .soft{color:var(--ink-2)}
+.muted{color:var(--ink-2);font-size:13px}
+ul.links{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+ul.links li{
+  padding:12px 0;
+  border-bottom:1px solid var(--hairline);
+  font-size:14px;
+}
+ul.links li:last-child{border-bottom:none}
+ul.links a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(153,60,29,.3)}
+ul.links .note{display:block;font-size:12px;color:var(--ink-3);margin-top:3px}
+details{
+  margin-top:26px;
+  border-top:1px solid var(--hairline);
+  padding-top:18px;
+}
+summary{
+  cursor:pointer;
+  font-size:14px;
+  color:var(--ink-2);
+  list-style:none;
+}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"＋ ";color:var(--ink-3)}
+details[open] summary::before{content:"－ "}
+details .body{margin-top:14px}
+footer{
+  margin-top:56px;
+  padding-top:22px;
+  border-top:1px solid var(--hairline);
+  font-size:12px;
+  color:var(--ink-3);
+  line-height:1.9;
+}
+footer a{color:var(--ink-2)}
+.reset{
+  background:none;border:none;
+  font-family:inherit;font-size:12px;
+  color:var(--ink-3);
+  cursor:pointer;padding:0;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+@media (prefers-reduced-motion: reduce){
+  .seat.new{animation:none}
+}
+</style>
+</head>
+<body>
+<main>
+
+  <p class="eyebrow">电影《欢迎来龙餐馆》之后</p>
+  <h1>留一副碗筷</h1>
+  <p class="lede">
+    徐福什么大事都没做成。他没能阻止战争，也没能救下所有人。<br>
+    他从头到尾只做了一件事——<em>让眼前这个人吃上一顿热饭。</em><br>
+    这里有一张桌子，门开着，还有位子。
+  </p>
+
+  <div class="stage">
+    <div class="table-scaler" id="scaler">
+      <div class="table" id="table">
+        <div class="center">
+          <div class="no" id="tableNo">第 1 桌</div>
+          <div class="left" id="tableLeft">还差 5 副碗筷</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="readout idle" id="readout">
+    <div class="q" id="roQ">把指针放到一副碗筷上，看看上面写着什么。</div>
+    <div class="by" id="roBy"></div>
+  </div>
+
+  <div class="form" id="form" hidden>
+    <div class="field">
+      <label for="q">留一句话（可以不写）</label>
+      <textarea id="q" maxlength="40" placeholder="想说点什么，留在这副碗筷上"></textarea>
+    </div>
+    <div class="field">
+      <label for="by">署名（可以不写）</label>
+      <input id="by" type="text" maxlength="12" placeholder="摆碗筷不需要报上名来">
+    </div>
+    <div class="row">
+      <button class="btn" id="submit">摆下这副碗筷</button>
+      <button class="btn ghost" id="cancel">再想想</button>
+      <span class="counter" id="counter"></span>
+    </div>
+  </div>
+
+  <div class="block">
+    <p class="truth">
+      这一副碗筷救不了任何一个孩子。<br>
+      <span class="soft">它只是让你和我，记住还有人没有这张桌子。</span>
+    </p>
+  </div>
+
+  <div class="block">
+    <h2>桌上的数字</h2>
+    <p class="muted">
+      全球约 4.73 亿儿童生活在受冲突影响地区，占全球儿童总数约 19%。<br>
+      2005—2022 年，遭冲突方招募和使用的儿童超过 10 万名。<br>
+      一个孩子一顿校餐，约 0.25 美元。
+    </p>
+    <p class="muted">出处：联合国儿童基金会、联合国秘书长儿童与武装冲突问题报告、世界粮食计划署。</p>
+  </div>
+
+  <details>
+    <summary>如果你还想再往前走一步</summary>
+    <div class="body">
+      <ul class="links">
+        <li>
+          <a href="https://www.cfpa.org.cn/project/GJProject.aspx?id=107" target="_blank" rel="noopener">中国乡村发展基金会 · 国际微笑儿童供餐项目</a>
+          <span class="note">2015 年启动，2024 年在 7 个国家惠及 7.1 万人次。5A 级社会组织，具备公开募捐资格。</span>
+        </li>
+        <li>
+          <a href="https://www.crcf.org.cn/" target="_blank" rel="noopener">中国红十字基金会 × 联合国难民署 · 危机响应行动</a>
+          <span class="note">叙利亚、红海、苏丹南苏丹三个行动已备案，可在支付宝公益、腾讯公益等平台找到。</span>
+        </li>
+        <li>
+          <a href="https://www.unicef.cn/take-action/donate-monthly" target="_blank" rel="noopener">联合国儿童基金会驻华办事处</a>
+          <span class="note">会友服务电话 400-098-2366。认准公开募捐资格与捐赠票据。</span>
+        </li>
+        <li>
+          <a href="https://www.un.org/zh/documents/treaty/files/A-RES-44-25.shtml" target="_blank" rel="noopener">《儿童权利公约》</a>
+          <span class="note">1989 年通过，中国 1991 年 12 月 29 日批准，1992 年 4 月 2 日对中国生效。中国也已加入《关于儿童卷入武装冲突问题的任择议定书》。</span>
+        </li>
+      </ul>
+      <p class="muted" style="margin-top:16px">
+        合规提示：认准「慈善中国」备案、公开募捐资格、可开捐赠票据。不做一对一助养，不转给个人账户或不明链接。
+      </p>
+    </div>
+  </details>
+
+  <footer>
+    <p>
+      这些碗筷只存在你自己的这台设备上，不会上传，也没有人能看见。<br>
+      它不是留言板，不排行、不计数、不比谁写得好。摆碗筷这种事，排不了名。
+    </p>
+    <p>
+      联合国儿童基金会对被迫卷入冲突的孩子的定性是：这些孩子是受害者，不是加害者。
+    </p>
+    <p style="margin-top:14px">
+      大卡小站的第 33 件作品 · <span id="mine"></span> ·
+      <button class="reset" id="reset">把桌子收拾干净</button>
+    </p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var KEY = "liuyifuwankuai.v1";
+  var CAP = 5;          // 每张桌子留给用户摆的位子数
+  var R = 134;          // 座位到圆心的距离
+
+  // 已经坐下的人：全部来自可核实的公开材料，不是网友留言
+  var SEEDS = [
+    { q: "这些孩子是受害者，不是加害者。", by: "联合国儿童基金会" },
+    { q: "我们不是恐怖分子，我们是厨子。", by: "徐福" },
+    { q: "一个孩子一顿校餐，约 0.25 美元。", by: "世界粮食计划署" },
+    { q: "无论委屈什么，别委屈吃的。", by: "文牧野" },
+    { q: "好好吃饭。", by: "母亲的电话" }
+  ];
+
+  var SEED_SLOTS = [0, 2, 4, 6, 8];
+  var USER_SLOTS = [1, 3, 5, 7, 9];
+
+  var table   = document.getElementById("table");
+  var scaler  = document.getElementById("scaler");
+  var tableNo = document.getElementById("tableNo");
+  var tableLeft = document.getElementById("tableLeft");
+  var readout = document.getElementById("readout");
+  var roQ = document.getElementById("roQ");
+  var roBy = document.getElementById("roBy");
+  var form = document.getElementById("form");
+  var qInput = document.getElementById("q");
+  var byInput = document.getElementById("by");
+  var counter = document.getElementById("counter");
+  var mineEl = document.getElementById("mine");
+
+  var mine = load();
+  var justPlaced = -1;
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(!raw) return [];
+      var d = JSON.parse(raw);
+      return Object.prototype.toString.call(d.seats) === "[object Array]" ? d.seats : [];
+    }catch(e){ return []; }
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify({ seats: mine })); }catch(e){}
+  }
+
+  function tableIndex(){ return Math.floor(mine.length / CAP); }
+  function filledHere(){ return mine.length % CAP; }
+
+  // 一个座位的图形
+  function seatSVG(kind, fresh){
+    var bowl, rice, stick, dash, anim = "";
+    if(kind === "filled"){
+      bowl = 'fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5"';
+      rice = 'fill="#F5E7D2"' + (fresh ? '><animate attributeName="r" from="0" to="7" dur="0.7s" fill="freeze"/><' : "");
+      stick = '#BA7517';
+      dash = "";
+    }else if(kind === "mine"){
+      bowl = 'fill="#FAECE7" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="4 3"' + anim;
+      rice = 'fill="none"';
+      stick = '#D85A30';
+      dash = ' stroke-dasharray="3 3"';
+    }else{
+      bowl = 'fill="none" stroke="#C9C5BB" stroke-width="1" stroke-dasharray="3 3"';
+      rice = 'fill="none"';
+      stick = '#D8D5CC';
+      dash = ' stroke-dasharray="2 2"';
+    }
+    var breathe = kind === "mine"
+      ? '<animate attributeName="opacity" values="1;0.5;1" dur="1.9s" repeatCount="indefinite"/>'
+      : "";
+    return '<svg viewBox="0 0 56 56" aria-hidden="true">'
+      + '<g class="hit">'
+      + '<circle cx="28" cy="36" r="13" ' + bowl + '>' + breathe + '</circle>'
+      + '<circle cx="28" cy="36" r="7" ' + rice + '/>'
+      + '<line x1="10" y1="9" x2="42" y2="16" stroke="' + stick + '" stroke-width="1.5" stroke-linecap="round"' + dash + '/>'
+      + '<line x1="10" y1="15" x2="42" y2="22" stroke="' + stick + '" stroke-width="1.5" stroke-linecap="round"' + dash + '/>'
+      + '</g></svg>';
+  }
+
+  function place(el, slotIndex){
+    var deg = -90 + 36 * slotIndex;
+    el.style.transform = "rotate(" + deg + "deg) translateY(-" + R + "px) rotate(" + (-deg) + "deg)";
+  }
+
+  function makeSeat(slotIndex, kind, data, fresh){
+    var el = document.createElement("div");
+    el.className = "seat" + (kind === "mine" ? " tap" : "") + (fresh ? " new" : "");
+    el.innerHTML = seatSVG(kind, fresh);
+    place(el, slotIndex);
+    if(kind === "mine"){
+      el.setAttribute("role", "button");
+      el.setAttribute("tabindex", "0");
+      el.addEventListener("click", openForm);
+      el.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); openForm(); }
+      });
+    }
+    var q = data ? data.q : "";
+    var by = data ? data.by : "";
+    if(kind === "filled"){
+      el.classList.add("tap");
+      el.setAttribute("tabindex", "0");
+    }
+    el.addEventListener("mouseenter", function(){
+      if(kind === "filled"){
+        readout.classList.remove("idle");
+        roQ.textContent = q ? "「" + q + "」" : "（这副碗筷上什么都没写）";
+        roBy.textContent = q ? "— " + by : "坐着，但没说话";
+      }else if(kind === "mine"){
+        readout.classList.remove("idle");
+        roQ.textContent = "这里有你的位子。坐下的时候，可以写一句话，也可以什么都不写。";
+        roBy.textContent = "点一下，把碗筷摆下";
+      }else{
+        readout.classList.remove("idle");
+        roQ.textContent = "这个位子还空着。";
+        roBy.textContent = "还有人没有这张桌子";
+      }
+    });
+    el.addEventListener("click", function(){
+      if(kind === "filled"){
+        readout.classList.remove("idle");
+        roQ.textContent = q ? "「" + q + "」" : "（这副碗筷上什么都没写）";
+        roBy.textContent = q ? "— " + by : "坐着，但没说话";
+      }
+    });
+    return el;
+  }
+
+  function render(){
+    var old = table.querySelectorAll(".seat");
+    for(var i = 0; i < old.length; i++){ old[i].remove(); }
+
+    var t = tableIndex();
+    var f = filledHere();
+
+    for(var s = 0; s < SEED_SLOTS.length; s++){
+      table.appendChild(makeSeat(SEED_SLOTS[s], "filled", SEEDS[s], false));
+    }
+
+    for(var u = 0; u < USER_SLOTS.length; u++){
+      var slot = USER_SLOTS[u];
+      if(u < f){
+        var rec = mine[t * CAP + u];
+        table.appendChild(makeSeat(slot, "filled", rec, justPlaced === t * CAP + u));
+      }else if(u === f){
+        table.appendChild(makeSeat(slot, "mine", null, false));
+      }else{
+        table.appendChild(makeSeat(slot, "empty", null, false));
+      }
+    }
+
+    tableNo.textContent = "第 " + (t + 1) + " 桌";
+    tableLeft.textContent = "还差 " + (CAP - f) + " 副碗筷";
+    mineEl.textContent = "你已经摆过 " + mine.length + " 副";
+
+    if(justPlaced >= 0){
+      var last = mine[justPlaced];
+      readout.classList.remove("idle");
+      if(f === 0 && mine.length > 0){
+        roQ.textContent = "这一桌满了。再开一桌吧。";
+        roBy.textContent = "第 " + (t + 1) + " 桌，又空着了";
+      }else if(last && last.q){
+        roQ.textContent = "「" + last.q + "」";
+        roBy.textContent = "你摆下了第 " + mine.length + " 副碗筷";
+      }else{
+        roQ.textContent = "你摆下了第 " + mine.length + " 副碗筷，什么都没写。";
+        roBy.textContent = "不说话也是一种坐下";
+      }
+      justPlaced = -1;
+    }
+  }
+
+  function openForm(){
+    form.hidden = false;
+    qInput.value = "";
+    byInput.value = "";
+    updateCounter();
+    qInput.focus();
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function updateCounter(){
+    counter.textContent = qInput.value.length + " / 40";
+  }
+
+  function submit(){
+    var q = qInput.value.trim();
+    var by = byInput.value.trim();
+    mine.push({ q: q, by: by, at: Date.now() });
+    save();
+    justPlaced = mine.length - 1;
+    form.hidden = true;
+    render();
+  }
+
+  function fit(){
+    var w = Math.min(window.innerWidth - 40, 600 - 40);
+    var s = Math.min(1, w / 380);
+    scaler.style.transform = "scale(" + s + ")";
+    scaler.style.height = (380 * s) + "px";
+  }
+
+  qInput.addEventListener("input", updateCounter);
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("cancel").addEventListener("click", function(){
+    form.hidden = true;
+  });
+  qInput.addEventListener("keydown", function(e){
+    if((e.metaKey || e.ctrlKey) && e.key === "Enter"){ submit(); }
+  });
+  document.getElementById("reset").addEventListener("click", function(){
+    if(window.confirm("把你摆过的碗筷全部收走？桌子会回到最开始的样子。")){
+      mine = [];
+      save();
+      render();
+      readout.classList.add("idle");
+      roQ.textContent = "桌子收拾干净了。还有位子。";
+      roBy.textContent = "";
+    }
+  });
+  window.addEventListener("resize", fit);
+
+  fit();
+  render();
+})();
+</script>
+</body>
+</html>
