@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>留一副碗筷 · 龙餐馆今天也开门</title>
-<meta name="description" content="一张永远留着空位的桌子。请一个人坐下，替他点一道菜。他来不了，位子也留着。">
+<meta name="description" content="一张永远留着空位的桌子。请一个人坐下，点一道这个人爱吃的。来不了，位子也留着。">
 <style>
 :root{
   --paper:#FBFAF7;
@@ -217,10 +217,11 @@ footer a{color:var(--ink-2)}
   <p class="eyebrow">电影《欢迎来龙餐馆》之后</p>
   <h1>留一副碗筷</h1>
   <p class="lede">
-    徐福什么大事都没做成。他没能阻止战争，也没能救下所有人。<br>
+    徐福没能阻止战争，也没能救下所有人。<br>
     他从头到尾只做了一件事——<em>让眼前这个人吃上一顿热饭。</em><br>
+    就这样，二十三个孩子活了下来。<br>
     这里有一张桌子，门开着，还有位子。<br>
-    先请一个人坐下，再替他点一道他爱吃的。
+    先请一个人坐下，再点一道这个人爱吃的。
   </p>
 
   <div class="guestcard" id="guestCard" hidden>
@@ -253,7 +254,7 @@ footer a{color:var(--ink-2)}
 
   <div class="table-actions">
     <button class="btn" id="inviteBtn">请一个人坐下</button>
-    <span class="ta-note">他来不了，也可以坐下。这副碗筷就只是留着。</span>
+    <span class="ta-note">来不了，也可以坐下。这副碗筷就只是留着。</span>
   </div>
 
   <section class="menu">
@@ -271,26 +272,26 @@ footer a{color:var(--ink-2)}
   <div class="form" id="inviteForm" hidden>
     <div class="picked">请一个人坐下</div>
     <div class="pickedname">你想请谁一起吃饭</div>
-    <div class="pickednote">他来不了也没关系。名字写下来，他就坐在这儿，碗筷照摆，饭照盛。</div>
+    <div class="pickednote">来不了也没关系。名字写下来，人就坐在这儿，碗筷照摆，饭照盛。</div>
     <p class="warn" id="inviteWarn" hidden>先写个名字。哪怕只是一个称呼。</p>
     <div class="field">
       <label for="gName">名字</label>
       <input id="gName" type="text" maxlength="12" placeholder="妈 / 老张 / 一个吃不上饭的孩子">
     </div>
     <div class="field">
-      <label>他还回得来吗</label>
+      <label>还回得来吗</label>
       <div class="choice">
-        <button class="chip on" id="kindLive" type="button">他还会来</button>
-        <button class="chip" id="kindKept" type="button">他来不了了</button>
+        <button class="chip on" id="kindLive" type="button">还会来</button>
+        <button class="chip" id="kindKept" type="button">来不了了</button>
       </div>
-      <p class="hint" id="kindHint">还在的人，你可以把那句话真的递给他——复制下来，发过去就行。</p>
+      <p class="hint" id="kindHint">还在的人，你可以把那句话真的递过去——复制下来，发过去就行。</p>
     </div>
     <div class="field">
-      <label for="gMsg">想对他说的一句话（可以不写）</label>
+      <label for="gMsg">想留给这个人的一句话（可以不写）</label>
       <textarea id="gMsg" maxlength="40" placeholder="好好吃饭"></textarea>
     </div>
     <div class="row">
-      <button class="btn" id="inviteSubmit">请他坐下</button>
+      <button class="btn" id="inviteSubmit">请这个人坐下</button>
       <button class="btn ghost" id="inviteCancel">等一下</button>
       <span class="counter" id="inviteCounter"></span>
     </div>
@@ -303,7 +304,7 @@ footer a{color:var(--ink-2)}
     <div class="field">
       <label>这盘端给谁</label>
       <div class="choice" id="whoList"></div>
-      <p class="hint">你知道他爱吃什么——这件事，本来就不用问。</p>
+      <p class="hint">你知道这个人爱吃什么——这件事，本来就不用问。</p>
     </div>
     <div class="row">
       <button class="btn" id="orderSubmit">端上来</button>
@@ -312,8 +313,8 @@ footer a{color:var(--ink-2)}
   </div>
 
   <section class="cards" id="cardsSection" hidden>
-    <h2>可以递给他的那句话</h2>
-    <p class="muted">复制下来，发给他。他打开链接，就能看见你留的这副碗筷。</p>
+    <h2>可以递出去的那句话</h2>
+    <p class="muted">复制下来，发过去。链接打开，就能看见你留的这副碗筷。</p>
     <div id="cardList"></div>
   </section>
 
@@ -330,9 +331,9 @@ footer a{color:var(--ink-2)}
   </div>
 
   <div class="block">
-    <h2>关于「他来不了了」</h2>
+    <h2>关于「来不了了」</h2>
     <p class="muted">
-      你可以请一个再也来不了的人坐下。他的碗筷和别人一样盛着饭——不标注，不特别对待。<br>
+      你可以请一个再也来不了的人坐下。这副碗筷和别人一样盛着饭——不标注，不特别对待。<br>
       唯一的区别是：还在的人，你能把那句话真的递过去；来不了的人，那句话只能留在这张桌子上。
     </p>
   </div>
@@ -587,7 +588,7 @@ footer a{color:var(--ink-2)}
         var g = guest;
         var head = g.kind === "kept" ? ("给了 " + g.name + " 留的位子") : ("你请的 " + g.name);
         roQ.textContent = g.msg ? ("「" + g.msg + "」") : head;
-        roBy.textContent = head + (g.dishes.length ? (" · 替他点了 " + dishLabel(g)) : " · 还没点菜");
+        roBy.textContent = head + (g.dishes.length ? (" · 点了 " + dishLabel(g)) : " · 还没点菜");
       }
     };
     el.addEventListener("mouseenter", show);
@@ -654,7 +655,7 @@ footer a{color:var(--ink-2)}
       readout.classList.remove("idle");
       roQ.textContent = lg.dishes[landing.di].name + " 上桌了。";
       roBy.textContent = lg.kind === "kept"
-        ? ("替 " + lg.name + " 点的。他来不了，碗筷留着。")
+        ? ("替 " + lg.name + " 点的。来不了，碗筷留着。")
         : ("替 " + lg.name + " 点的");
       landing = null;
     }
@@ -794,7 +795,7 @@ footer a{color:var(--ink-2)}
     kindLive.className = "chip" + (k === "invited" ? " on" : "");
     kindKept.className = "chip" + (k === "kept" ? " on" : "");
     kindHint.textContent = k === "invited"
-      ? "还在的人，你可以把那句话真的递给他——复制下来，发过去就行。"
+      ? "还在的人，你可以把那句话真的递过去——复制下来，发过去就行。"
       : "来不了的人，这句话就只留在这张桌子上。碗筷照摆，饭照盛。";
   }
 
@@ -828,10 +829,10 @@ footer a{color:var(--ink-2)}
     readout.classList.remove("idle");
     if(inviteKind === "kept"){
       roQ.textContent = "给 " + name + " 留了副碗筷。";
-      roBy.textContent = "他来不了了，这副碗筷就一直留着";
+      roBy.textContent = "来不了了，这副碗筷就一直留着";
     }else{
       roQ.textContent = name + " 坐下了。";
-      roBy.textContent = "往下面菜单里挑一道他爱吃的";
+      roBy.textContent = "往下面菜单里挑一道这个人爱吃的";
     }
     var forms = document.getElementById("table");
     if(forms && forms.scrollIntoView){ forms.scrollIntoView({ behavior: "smooth", block: "center" }); }
