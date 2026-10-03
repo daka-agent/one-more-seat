@@ -139,8 +139,7 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .menu-item .body{flex:1;min-width:0}
 .menu-name{font-size:14px}
 .menu-note{font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:2px}
-.menu-price{font-size:12px;color:var(--ink-3);white-space:nowrap}
-.menu-foot{margin-top:14px;font-size:12px;color:var(--ink-2);line-height:1.6}
+.menu-foot{margin-top:14px;font-size:12px;color:var(--ink-2);line-height:1.75}
 
 .form{margin:16px auto 0;padding:18px;border:1px solid var(--hairline);border-radius:12px;background:#fff}
 .form[hidden]{display:none}
@@ -220,7 +219,7 @@ footer a{color:var(--ink-2)}
 <body>
 <main>
 
-  <p class="eyebrow">电影《欢迎来龙餐馆》之后</p>
+  <p class="eyebrow">看完电影《欢迎来龙餐馆》的那个晚上</p>
   <h1>留一副碗筷</h1>
   <p class="soul">好 好 吃 饭</p>
   <p class="lede">
@@ -255,13 +254,13 @@ footer a{color:var(--ink-2)}
   </div>
 
   <div class="readout idle" id="readout">
-    <div class="q" id="roQ">把指针放到一副碗筷上，看看那是谁的位子。</div>
+    <div class="q" id="roQ">碰一碰桌上的碗筷，看看那是谁的位子。</div>
     <div class="by" id="roBy"></div>
   </div>
 
   <div class="table-actions">
     <button class="btn" id="inviteBtn">请一个人坐下</button>
-    <span class="ta-note">来不了，也可以坐下。这副碗筷就只是留着。</span>
+    <span class="ta-note">来不了的人，位子也一直留着。</span>
   </div>
 
   <section class="menu">
@@ -270,11 +269,11 @@ footer a{color:var(--ink-2)}
     <div class="menu-rule"></div>
     <div id="menuList"></div>
     <div class="menu-foot">
-      每一栏都写着同一个数。世界粮食计划署的口径：<strong style="font-weight:500;">一份校园餐平均约 US$0.25</strong>，US$50 供一个孩子吃一整学年。<br>
-      WFP 中国办公室的中文稿里是这么写的：<strong style="font-weight:500;">「仅需要 0.25 美元（约合人民币约 2 元），就能为一个上学的孩子提供一顿营养餐」</strong>——这里的人民币是引用，不是本页换算的数字。<br>
-      这一栏<strong style="font-weight:500;">不是售价</strong>。这个页面不收任何钱，也不代为捐赠——它只是一把尺子。<br>
+      这一栏本来该写着价钱。我们把它空着——<strong style="font-weight:500;">这桌饭不要钱。</strong>不收打赏，也不代任何人捐款。<br>
+      想知道一顿饭的分量：在这张桌子外面，一个孩子吃一顿校园餐，平均约 US$0.25。这个数在下头有完整的出处。<br>
       <br>
-      这一页的菜名都出自影片。剧组前后研发了约 140 道菜（凉菜 23 道、热菜 80 道），呈现在银幕上的近 40 道，这里收了 34 道。<strong style="font-weight:500;">有明确场次的，写的是那一场戏；只在银幕上一闪而过的，只写它是什么菜——不编情节。</strong>
+      这一页的菜名都出自影片。剧组前后研发了约 140 道菜（凉菜 23 道、热菜 80 道），落到银幕上的近 40 道，这里收了 34 道。<br>
+      有明确场次的，写的是那一场戏；只在镜头里一闪而过的，只写它是什么菜——<strong style="font-weight:500;">不编情节。</strong>
     </div>
   </section>
 
@@ -284,16 +283,16 @@ footer a{color:var(--ink-2)}
     <div class="pickednote">来不了也没关系。名字写下来，人就坐在这儿，碗筷照摆，饭照盛。</div>
     <p class="warn" id="inviteWarn" hidden>先写个名字。哪怕只是一个称呼。</p>
     <div class="field">
-      <label for="gName">名字</label>
+      <label for="gName">名字或称呼</label>
       <input id="gName" type="text" maxlength="12" placeholder="妈 / 老张 / 一个吃不上饭的孩子">
     </div>
     <div class="field">
-      <label>还回得来吗</label>
+      <label>这个人还能赴约吗</label>
       <div class="choice">
-        <button class="chip on" id="kindLive" type="button">还会来</button>
+        <button class="chip on" id="kindLive" type="button">能来</button>
         <button class="chip" id="kindKept" type="button">来不了了</button>
       </div>
-      <p class="hint" id="kindHint">还在的人，你可以把那句话真的递过去——复制下来，发过去就行。</p>
+      <p class="hint" id="kindHint">还在的人，这句话你可以真的递到他手上——复制下来，发过去就行。</p>
     </div>
     <div class="field">
       <label for="gMsg">想留给这个人的一句话（可以不写）</label>
@@ -302,7 +301,7 @@ footer a{color:var(--ink-2)}
     </div>
     <div class="row">
       <button class="btn" id="inviteSubmit">请这个人坐下</button>
-      <button class="btn ghost" id="inviteCancel">等一下</button>
+      <button class="btn ghost" id="inviteCancel">再想想</button>
       <span class="counter" id="inviteCounter"></span>
     </div>
   </div>
@@ -324,7 +323,7 @@ footer a{color:var(--ink-2)}
 
   <section class="cards" id="cardsSection" hidden>
     <h2>可以递出去的那句话</h2>
-    <p class="muted">复制下来，发过去。链接打开，就能看见你留的这副碗筷。</p>
+    <p class="muted">复制下来，发给这个人。链接一打开，就能看见那副留好的碗筷。</p>
     <div id="cardList"></div>
   </section>
 
@@ -341,21 +340,26 @@ footer a{color:var(--ink-2)}
   </div>
 
   <div class="block">
-    <h2>关于「来不了了」</h2>
+    <h2>给来不了的人，留的那个位子</h2>
     <p class="muted">
       你可以请一个再也来不了的人坐下。这副碗筷和别人一样盛着饭——不标注，不特别对待。<br>
-      唯一的区别是：还在的人，你能把那句话真的递过去；来不了的人，那句话只能留在这张桌子上。
+      唯一的区别是：还在的人，你能把那句话真的递过去；来不了的人，那句话只能留在这张桌子上。<br>
+      <br>
+      有些话说给还在的人听，他会应你一声。说给来不了的人，你就这样说很久很久。
     </p>
   </div>
 
   <div class="block">
-    <h2>桌上的数字</h2>
+    <h2>这张桌子外面的事</h2>
+    <p class="muted">
+      这一桌坐得下十个人。坐不下的那些，还在外面。
+    </p>
     <p class="muted">
       全球约 4.73 亿儿童生活在受冲突影响地区，占全球儿童总数约 19%。<br>
       2005—2022 年，遭冲突方招募和使用的儿童超过 10 万名。<br>
       一份校园餐的平均成本约 US$0.25，US$50 供一个孩子吃一整学年。
     </p>
-    <p class="muted">出处：联合国儿童基金会、联合国秘书长儿童与武装冲突问题报告、世界粮食计划署。校餐成本为 WFP 长期使用的全球平均口径，各国各项目的实际成本差异很大。<br>页面上的数字一律照原始口径引用：US$0.25 是 WFP 文件的原文；人民币「约 2 元」引自 WFP 中国办公室 2016 年的中文新闻稿，属引用而非本页换算——换成任何自行折算的人民币数字都不是任何机构的说法。</p>
+    <p class="muted">前两条来自联合国儿童基金会，以及联合国秘书长的儿童与武装冲突问题报告。第三条是世界粮食计划署长期使用的全球平均口径，各国各地的实际成本差得很远。<br>这个页面上的数字一律照原文引用，不自己折算货币。</p>
   </div>
 
   <details>
@@ -380,24 +384,25 @@ footer a{color:var(--ink-2)}
         </li>
       </ul>
       <p class="muted" style="margin-top:16px">
-        合规提示：认准「慈善中国」备案、公开募捐资格、可开捐赠票据。不做一对一助养，不转给个人账户或不明链接。
+        几句放在最后的啰嗦话：认准「慈善中国」备案、公开募捐资格、能开出捐赠票据；不做一对一助养，不转给个人账户或者来路不明的链接。<br>
+        给出去之前多看一眼，它才到得了该到的地方。
       </p>
     </div>
   </details>
 
   <footer>
     <p>
-      你请的人和点的菜，只存在这台设备上，不会上传，也没有人能看见。<br>
+      你请的人、点的菜，只存在这台设备上，不会上传，也没有第二个人能看见。<br>
       它不是留言板，不排行、不计数、不比谁写得好。摆碗筷这种事，排不了名。
     </p>
     <p>
-      联合国儿童基金会对被迫卷入冲突的孩子的定性是：这些孩子是受害者，不是加害者。
+      联合国儿童基金会有一句话，是说给卷进战火的孩子听的：这些孩子是受害者，不是加害者。
     </p>
     <p style="margin-top:14px">
       本页是个人公益性质的非商业创作，起因于电影《欢迎来龙餐馆》（导演文牧野），与出品方、发行方没有任何关联，也未获授权。页面未使用任何剧照、海报、预告片或配乐，桌上图形与文案均为手绘与原创，片名与菜名的使用仅为说明来源。它不收费、不募款、不接受商业赞助。如权利人认为不妥，请与作者联系，我会第一时间下架。
     </p>
     <p style="margin-top:14px">
-      大卡小站的第 33 件作品 · 菜名均出自影片《欢迎来龙餐馆》 ·
+      大卡小站的第 33 件作品 · 起因于电影《欢迎来龙餐馆》 ·
       <button class="reset" id="reset">把桌子收拾干净</button>
     </p>
   </footer>
@@ -629,12 +634,12 @@ footer a{color:var(--ink-2)}
         roBy.textContent = "他的馆子门开着。你请的人，都由他来做。";
       }else if(kind === "empty"){
         roQ.textContent = "这个位子还空着。";
-        roBy.textContent = "点它，请一个人坐下";
+        roBy.textContent = "点一下，请一个人坐下";
       }else{
         var g = guest;
-        var head = g.kind === "kept" ? ("给了 " + g.name + " 留的位子") : ("你请的 " + g.name);
+        var head = g.kind === "kept" ? ("给 " + g.name + " 留的位子") : ("你请的 " + g.name);
         roQ.textContent = g.msg ? ("「" + g.msg + "」") : head;
-        roBy.textContent = head + (g.dishes.length ? (" · 点了 " + dishLabel(g)) : " · 还没点菜");
+        roBy.textContent = head + (g.dishes.length ? (" · 点了 " + dishLabel(g)) : " · 还没点吃的");
       }
     };
     el.addEventListener("mouseenter", show);
@@ -703,7 +708,7 @@ footer a{color:var(--ink-2)}
       readout.classList.remove("idle");
       roQ.textContent = lg.dishes[landing.di].name + " 上桌了。";
       roBy.textContent = lg.kind === "kept"
-        ? ("替 " + lg.name + " 点的。来不了，碗筷留着。")
+        ? ("替 " + lg.name + " 点的。来不了，碗筷一直留着。")
         : ("替 " + lg.name + " 点的");
       landing = null;
     }
@@ -816,7 +821,7 @@ footer a{color:var(--ink-2)}
       html += '<div class="menu-item" data-i="' + i + '" tabindex="0" role="button">'
         + '<div class="body"><div class="menu-name">' + DISHES[i].name + '</div>'
         + '<div class="menu-note">' + DISHES[i].note + '</div></div>'
-        + '<div class="menu-price">US$0.25</div></div>';
+        + '</div>';
     }
     menuList.innerHTML = html;
     var items = menuList.querySelectorAll(".menu-item");
@@ -847,8 +852,8 @@ footer a{color:var(--ink-2)}
     kindLive.className = "chip" + (k === "invited" ? " on" : "");
     kindKept.className = "chip" + (k === "kept" ? " on" : "");
     kindHint.textContent = k === "invited"
-      ? "还在的人，你可以把那句话真的递过去——复制下来，发过去就行。"
-      : "来不了的人，这句话就只留在这张桌子上。碗筷照摆，饭照盛。";
+      ? "还在的人，这句话你可以真的递到他手上——复制下来，发过去就行。"
+      : "来不了的人，这句话就留在这张桌子上。碗筷照摆，饭照盛。";
   }
 
   function submitInvite(){
@@ -884,7 +889,7 @@ footer a{color:var(--ink-2)}
       roBy.textContent = "来不了了，这副碗筷就一直留着";
     }else{
       roQ.textContent = name + " 坐下了。";
-      roBy.textContent = "往下面菜单里挑一道这个人爱吃的";
+      roBy.textContent = "去菜单上挑一道这个人爱吃的";
     }
     var forms = document.getElementById("table");
     if(forms && forms.scrollIntoView){ forms.scrollIntoView({ behavior: "smooth", block: "center" }); }
@@ -897,7 +902,7 @@ footer a{color:var(--ink-2)}
       inviteForm.hidden = true;
       readout.classList.remove("idle");
       roQ.textContent = "先请一个人坐下。";
-      roBy.textContent = "吃饭是和人一起做的事——一个人点菜，这桌没有味道";
+      roBy.textContent = "吃饭是和人一起做的事。一个人点菜，这桌就没味道了";
       table.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
@@ -922,7 +927,7 @@ footer a{color:var(--ink-2)}
         var b = document.createElement("button");
         b.type = "button";
         b.className = "chip" + (gi === whoIdx ? " on" : "");
-        b.textContent = g.name + (g.dishes.length ? "（已有 " + g.dishes.length + " 道）" : "");
+        b.textContent = g.name + (g.dishes.length ? "（已经点了 " + g.dishes.length + " 道）" : "");
         b.addEventListener("click", function(){
           whoIdx = gi;
           buildWho(idxs);
@@ -960,7 +965,7 @@ footer a{color:var(--ink-2)}
     }catch(e){ return; }
     if(!to) return;
     guestCard.hidden = false;
-    gcLine.textContent = to + "，这句话是留给你的。";
+    gcLine.textContent = to + "，有句话是留给你的。";
     gcDish.textContent = dish ? ("替你点了 " + dish + "。") : "";
     gcMsg.textContent = msg ? ("「" + msg + "」") : "";
   }
@@ -980,7 +985,7 @@ footer a{color:var(--ink-2)}
     openInvite();
   });
   document.getElementById("reset").addEventListener("click", function(){
-    if(window.confirm("把请来的人全部送走？桌子会回到最开始的样子。")){
+    if(window.confirm("要把桌子收拾干净吗？请过的人会都先起身离开，位子都给你留着。")){
       guests = [];
       save();
       render();
