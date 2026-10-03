@@ -207,7 +207,8 @@ footer a{color:var(--ink-2)}
     <div class="menu-rule"></div>
     <div id="menuList"></div>
     <div class="menu-foot">
-      每一栏都是同一个价。这不是菜单上的玩笑——<strong style="font-weight:500;">约 ¥1.8，是一个孩子在另一个地方吃一顿校餐的钱。</strong>
+      每一栏都写着同一个数。世界粮食计划署的口径：<strong style="font-weight:500;">一份校园餐平均约 US$0.25</strong>，US$50 供一个孩子吃一整学年。<br>
+      这一栏<strong style="font-weight:500;">不是售价</strong>。这个页面不收任何钱，也不代为捐赠——它只是一把尺子。
     </div>
   </section>
 
@@ -247,9 +248,9 @@ footer a{color:var(--ink-2)}
     <p class="muted">
       全球约 4.73 亿儿童生活在受冲突影响地区，占全球儿童总数约 19%。<br>
       2005—2022 年，遭冲突方招募和使用的儿童超过 10 万名。<br>
-      一个孩子一顿校餐，约 0.25 美元。
+      一份校园餐的平均成本约 US$0.25，US$50 供一个孩子吃一整学年。
     </p>
-    <p class="muted">出处：联合国儿童基金会、联合国秘书长儿童与武装冲突问题报告、世界粮食计划署。</p>
+    <p class="muted">出处：联合国儿童基金会、联合国秘书长儿童与武装冲突问题报告、世界粮食计划署。校餐成本为 WFP 长期使用的全球平均口径，各国各项目的实际成本差异很大；页面上不出现任何换算后的人民币数字。</p>
   </div>
 
   <details>
@@ -530,7 +531,7 @@ footer a{color:var(--ink-2)}
       html += '<div class="menu-item" data-i="' + i + '" tabindex="0" role="button">'
         + '<div class="body"><div class="menu-name">' + DISHES[i].name + '</div>'
         + '<div class="menu-note">' + DISHES[i].note + '</div></div>'
-        + '<div class="menu-price">¥1.8</div></div>';
+        + '<div class="menu-price">US$0.25</div></div>';
     }
     menuList.innerHTML = html;
     var items = menuList.querySelectorAll(".menu-item");
