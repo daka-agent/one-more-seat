@@ -2,6 +2,9 @@
 
 一张永远留着空位的桌子。请一个人坐下，替他点一道他爱吃的。他来不了，位子也留着。
 
+**在线地址：https://daka-agent.github.io/one-more-seat/**
+源码：https://github.com/daka-agent/one-more-seat
+
 起因是电影《欢迎来龙餐馆》。徐福什么大事都没做成——他没能阻止战争，也没能救下所有人，从头到尾只做了一件事：让眼前这个人吃上一顿热饭。
 
 ## 它是怎么运作的
@@ -75,7 +78,7 @@
 
 ```
 妈，我给你留了副碗筷。替你点了饺子。「好好吃饭」
-https://…/index.html?to=妈&msg=好好吃饭&dish=饺子
+https://daka-agent.github.io/one-more-seat/?to=妈&msg=好好吃饭&dish=饺子
 ```
 
 复制下来，发微信、发短信都行。对方打开链接，页面顶部会出现一张卡片：「小宝，这句话是留给你的。替你点了饺子。」
