@@ -561,7 +561,7 @@ footer a{color:var(--ink-2)}
   // 一位客人面前的一套餐具。按中餐摆台：桌心在 SVG 上方(−Y)，客人自己在下方(+Y)
   function seatSVG(kind){
     var porc, rice, sauce, tea, stick, dash;
-    if(kind === "filled" || kind === "kept"){
+    if(kind === "filled" || kind === "invited" || kind === "kept"){
       porc  = kind === "kept"
         ? 'fill="#FFFFFF" stroke="#BDB8AE" stroke-width="0.6"'
         : 'fill="#FFFFFF" stroke="#A8A49B" stroke-width="0.6"';
