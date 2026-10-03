@@ -125,6 +125,11 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .menu-head{text-align:center;font-size:14px;font-weight:500;letter-spacing:.35em}
 .menu-sub{text-align:center;font-size:11px;color:var(--ink-3);letter-spacing:.1em;margin-top:3px}
 .menu-rule{height:1px;background:var(--hairline);margin:14px 0 4px}
+.menu-sec{
+  font-size:11px;letter-spacing:.18em;color:var(--ink-3);
+  margin:18px 0 4px;padding:12px 10px 0;border-top:1px solid var(--hairline);
+}
+.menu-sec:first-child{margin-top:0;padding-top:0;border-top:none}
 .menu-item{
   display:flex;gap:12px;align-items:baseline;
   padding:11px 10px;border-bottom:1px solid rgba(0,0,0,.05);
@@ -267,7 +272,9 @@ footer a{color:var(--ink-2)}
     <div class="menu-foot">
       每一栏都写着同一个数。世界粮食计划署的口径：<strong style="font-weight:500;">一份校园餐平均约 US$0.25</strong>，US$50 供一个孩子吃一整学年。<br>
       WFP 中国办公室的中文稿里是这么写的：<strong style="font-weight:500;">「仅需要 0.25 美元（约合人民币约 2 元），就能为一个上学的孩子提供一顿营养餐」</strong>——这里的人民币是引用，不是本页换算的数字。<br>
-      这一栏<strong style="font-weight:500;">不是售价</strong>。这个页面不收任何钱，也不代为捐赠——它只是一把尺子。
+      这一栏<strong style="font-weight:500;">不是售价</strong>。这个页面不收任何钱，也不代为捐赠——它只是一把尺子。<br>
+      <br>
+      这一页的菜名都出自影片。剧组前后研发了约 140 道菜（凉菜 23 道、热菜 80 道），呈现在银幕上的近 40 道，这里收了 34 道。<strong style="font-weight:500;">有明确场次的，写的是那一场戏；只在银幕上一闪而过的，只写它是什么菜——不编情节。</strong>
     </div>
   </section>
 
@@ -404,17 +411,53 @@ footer a{color:var(--ink-2)}
   var KEY = "liuyifuwankuai.v3";
   var SLOTS = 9;
   var SEAT_R = 140;
-  var DISH_R = 48;
-  var DISH_R_STEP = 26;
+  var DISH_R = 42;
+  var DISH_R_STEP = 22;
+  var DISH_RINGS = 3;
 
-  // 菜单：每一道都对着影片里的一场戏
+  // 菜单：菜名全部出自影片《欢迎来龙餐馆》。
+  // 有明确场次的，note 写那一场戏；只在银幕上一闪而过的，只写它是什么菜，不编情节。
   var DISHES = [
-    { name: "饺子", note: "上车饺子。出发那天，母亲从锅里夹给他的那一个。", color: "#C9803E" },
-    { name: "一碗面", note: "下车面。回来那天，女儿端来的那一碗。", color: "#8FA35C" },
-    { name: "徐福烩饭", note: "半个煤气罐架起的锅，逃亡路上围着二十三个孩子。", color: "#E0A33C" },
-    { name: "荷包蛋", note: "每个孩子被送走之前的最后一餐。鸡蛋不够了。", color: "#D9B34A" },
-    { name: "番茄汤", note: "他把该是辣椒水的东西，偷偷换成了番茄汤。", color: "#C94F3E" },
-    { name: "发芽土豆炖牛肉", note: "故意做的。孩子拉肚子，就能多留一天。", color: "#8A5B3C" }
+    { sec: "镇店", name: "龙抬头", note: "松鼠鳜鱼改的。他刚开店的镇场菜，也是他不肯做左宗棠鸡的底气。", color: "#D98A3D" },
+    { sec: "镇店", name: "徐福烩饭", note: "半个煤气罐架起的锅，逃亡路上围着二十三个孩子。", color: "#E0A33C" },
+
+    { sec: "热菜", name: "宫保鸡丁", note: "餐馆日常的爆品，当地人最常点的一道。", color: "#C4622D" },
+    { sec: "热菜", name: "水煮牛肉", note: "一大盆红油，龙餐馆桌上最有江湖气的一道。", color: "#BE3B2E" },
+    { sec: "热菜", name: "麻婆豆腐", note: "不起眼的家常菜，却最先征服了外国食客。", color: "#D4553C" },
+    { sec: "热菜", name: "红烧牛尾", note: "宴席上的硬菜，慢炖到脱骨。", color: "#8B4A2B" },
+    { sec: "热菜", name: "支竹炆牛腩", note: "店里的热门大菜。", color: "#9C5B33" },
+    { sec: "热菜", name: "黄焖羊排", note: "菜单上的一道热菜。", color: "#B9713A" },
+    { sec: "热菜", name: "葱油鸡", note: "餐馆日常的一道热菜。", color: "#C9A24A" },
+    { sec: "热菜", name: "蒜蓉粉丝开边虾", note: "宴席上的海鲜热菜。", color: "#E08A6A" },
+    { sec: "热菜", name: "椒盐平菇", note: "店里热门的一道。", color: "#B09A6A" },
+
+    { sec: "家常", name: "饺子", note: "上车饺子。出发那天，母亲从锅里夹给他的那一个。", color: "#C9803E" },
+    { sec: "家常", name: "一碗面", note: "下车面。回来那天，女儿端来的那一碗。", color: "#8FA35C" },
+    { sec: "家常", name: "土豆炖牛肉", note: "「张嘴」。他让俊生尝的第一口，热气腾腾的牛肉。", color: "#8A5B3C" },
+    { sec: "家常", name: "发芽土豆炖牛肉", note: "还是这一道，这次故意做坏：孩子拉肚子，就能多留一天。", color: "#6E7B4A" },
+    { sec: "家常", name: "荷包蛋", note: "每个孩子被送走之前的最后一餐。鸡蛋不够了。", color: "#D9B34A" },
+    { sec: "家常", name: "番茄汤", note: "他把该是辣椒水的东西，偷偷换成了番茄汤。", color: "#C94F3E" },
+    { sec: "家常", name: "西红柿炒鸡蛋", note: "最平常的一道家常菜，在战火里最难得。", color: "#D4683A" },
+    { sec: "家常", name: "白菜冻豆腐", note: "东北家常炖菜，冬天餐桌上的常客。", color: "#A8B98A" },
+    { sec: "家常", name: "家常豆腐汤", note: "菜单上的一道汤。", color: "#C2B79A" },
+
+    { sec: "凉菜", name: "酱牛肉", note: "餐馆日常的一道凉菜。", color: "#7A4A32" },
+    { sec: "凉菜", name: "老虎菜", note: "清爽解腻的凉拌小菜。", color: "#7E9B4E" },
+    { sec: "凉菜", name: "老醋花生", note: "一道凉菜。", color: "#B07A46" },
+    { sec: "凉菜", name: "小葱拌豆腐", note: "一道凉菜。", color: "#9FB08C" },
+    { sec: "凉菜", name: "蒜泥茄子", note: "一道凉菜。", color: "#7A5C8A" },
+    { sec: "凉菜", name: "蓑衣黄瓜", note: "每一刀入肉三分，不断不裂。最考验刀工的一道。", color: "#6E9B5B" },
+
+    { sec: "宴席", name: "铁锅炖烤鱼", note: "婚宴上，东北铁锅炖遇上阿拉伯烤鱼。他第一次和当地人打成一片。", color: "#C2703A" },
+    { sec: "宴席", name: "麻辣大龙虾", note: "圣诞聚会，波士顿大龙虾做成了麻辣的。", color: "#D0402C" },
+    { sec: "宴席", name: "蝎子爬圣诞树", note: "山东小吃「蝎子爬雪山」，改成了圣诞树。", color: "#9C7B4A" },
+    { sec: "宴席", name: "脆皮烤全羊", note: "大型宴席上的硬菜。", color: "#A9642F" },
+
+    { sec: "小吃与甜品", name: "大麻球", note: "落地之后做的第一餐，看家本领之一。", color: "#E3B04B" },
+    { sec: "小吃与甜品", name: "拔丝地瓜", note: "东北宴席上的甜菜，糖丝拉得很长。", color: "#E8A93A" },
+    { sec: "小吃与甜品", name: "徐福汉堡", note: "腊八蒜风味的中国汉堡，中西混着来的一道。", color: "#C08A4A" },
+
+    { sec: "片尾", name: "青苔面", note: "片尾菜单上闪过的名字。真事：贝鲁特港大爆炸之后，废墟旁一家中餐馆免费煮面，只换客人讲一件开心的事。", color: "#7FA05C" }
   ];
 
   var table   = document.getElementById("table");
@@ -492,8 +535,8 @@ footer a{color:var(--ink-2)}
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   }
 
-  function place(el, r, slotIndex){
-    var deg = -90 + (360 / (SLOTS + 1)) * slotIndex;
+  function place(el, r, slotIndex, shift){
+    var deg = -90 + (360 / (SLOTS + 1)) * slotIndex + (shift || 0);
     el.style.transform = "rotate(" + deg + "deg) translateY(-" + r + "px) rotate(" + (-deg) + "deg)";
     return deg;
   }
@@ -558,11 +601,11 @@ footer a{color:var(--ink-2)}
     return d;
   }
 
-  function makeDish(slot, dish, radius, guest, hot){
+  function makeDish(slot, dish, radius, guest, hot, shift){
     var el = document.createElement("div");
     el.className = "dish mine" + (hot ? " hot landed" : "");
     el.innerHTML = dishSVG(dish.color) + (hot ? '<span class="steam"><i></i><i></i><i></i></span>' : "");
-    place(el, radius, slot);
+    place(el, radius, slot, shift);
     el.addEventListener("mouseenter", function(){
       readout.classList.remove("idle");
       roQ.textContent = dish.name;
@@ -642,7 +685,9 @@ footer a{color:var(--ink-2)}
       table.appendChild(makeSeat(s, g.kind, g));
       for(var k = 0; k < g.dishes.length; k++){
         var hot = landing && landing.name === g.name && landing.di === k;
-        susan.appendChild(makeDish(g.slot, dishOf(g.dishes[k].name), DISH_R + DISH_R_STEP * k, g, hot));
+        var r = DISH_R + DISH_R_STEP * (k % DISH_RINGS);
+        var shift = Math.floor(k / DISH_RINGS) * 13;
+        susan.appendChild(makeDish(g.slot, dishOf(g.dishes[k].name), r, g, hot, shift));
       }
     }
 
@@ -762,8 +807,12 @@ footer a{color:var(--ink-2)}
   }
 
   function buildMenu(){
-    var html = "";
+    var html = "", sec = null;
     for(var i = 0; i < DISHES.length; i++){
+      if(DISHES[i].sec !== sec){
+        sec = DISHES[i].sec;
+        html += '<div class="menu-sec">' + sec + '</div>';
+      }
       html += '<div class="menu-item" data-i="' + i + '" tabindex="0" role="button">'
         + '<div class="body"><div class="menu-name">' + DISHES[i].name + '</div>'
         + '<div class="menu-note">' + DISHES[i].note + '</div></div>'
