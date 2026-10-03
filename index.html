@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>留一副碗筷 · 龙餐馆今天也开门</title>
-<meta name="description" content="一张永远留着空位的桌子。点一道菜，菜会端到中间的转盘上。">
+<meta name="description" content="一张永远留着空位的桌子。请一个人坐下，替他点一道菜。他来不了，位子也留着。">
 <style>
 :root{
   --paper:#FBFAF7;
@@ -42,7 +42,18 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .lede{margin:20px 0 0;color:var(--ink-2);font-size:14px}
 .lede em{font-style:normal;color:var(--ink)}
 
-.stage{margin:44px 0 0;display:flex;justify-content:center}
+.guestcard{
+  margin:30px auto 0;max-width:460px;padding:22px;
+  border:1px solid var(--accent-line);border-radius:12px;background:#FFFDF9;text-align:center;
+}
+.guestcard[hidden]{display:none}
+.gc-eyebrow{font-size:11px;letter-spacing:.18em;color:var(--accent)}
+.gc-line{font-size:17px;margin-top:9px;line-height:1.7}
+.gc-dish{font-size:13px;color:var(--ink-2);margin-top:4px}
+.gc-msg{font-size:15px;margin-top:11px;color:var(--ink)}
+.gc-actions{margin-top:18px}
+
+.stage{margin:40px 0 0;display:flex;justify-content:center}
 .table-scaler{width:400px;transform-origin:top center}
 .table{position:relative;width:400px;height:400px;border-radius:50%;background:var(--wood-edge);border:1px solid var(--wood-line)}
 .table::before{content:"";position:absolute;left:11px;top:11px;right:11px;bottom:11px;border-radius:50%;background:var(--wood)}
@@ -65,16 +76,14 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
   25%{opacity:.7}
   100%{opacity:0;transform:translateY(-9px) scaleY(1)}
 }
-@media (prefers-reduced-motion: no-preference){
-  .dish.hot .steam i{animation:steam 2.2s ease-out 1 both}
-  .dish.hot .steam i:nth-child(2){animation-delay:.18s}
-  .dish.hot .steam i:nth-child(3){animation-delay:.36s}
-}
 @keyframes landed{
   from{opacity:0;transform:scale(.6)}
   to{opacity:1;transform:scale(1)}
 }
 @media (prefers-reduced-motion: no-preference){
+  .dish.hot .steam i{animation:steam 2.2s ease-out 1 both}
+  .dish.hot .steam i:nth-child(2){animation-delay:.18s}
+  .dish.hot .steam i:nth-child(3){animation-delay:.36s}
   .dish.landed svg{animation:landed .45s cubic-bezier(.2,1.4,.4,1) both}
 }
 
@@ -95,7 +104,10 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
   pointer-events:none;
   text-align:center;
 }
-.seat.mine-pending .seat-label{color:var(--accent)}
+.seat-label .nm{display:block;overflow:hidden;text-overflow:ellipsis}
+.seat-label .sub{display:block;font-size:9px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis}
+.seat-label.kept{color:var(--ink-3)}
+.seat-label.host{color:#8A6A45}
 
 .readout{
   margin:26px auto 0;max-width:420px;min-height:62px;padding:13px 16px;
@@ -104,6 +116,9 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .readout .q{font-size:14px;line-height:1.7}
 .readout .by{font-size:12px;color:var(--ink-3);margin-top:5px}
 .readout.idle .q{color:var(--ink-3)}
+
+.table-actions{text-align:center;margin-top:18px}
+.ta-note{display:block;font-size:12px;color:var(--ink-3);margin-top:9px}
 
 .menu{margin-top:34px;border-top:1px solid var(--hairline);padding-top:22px}
 .menu-head{text-align:center;font-size:14px;font-weight:500;letter-spacing:.35em}
@@ -141,6 +156,27 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 }
 .btn.ghost{background:transparent;color:var(--ink-2);border:1px solid var(--hairline)}
 .counter{font-size:12px;color:var(--ink-3);margin-left:auto}
+.choice{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  font-family:inherit;font-size:13px;border-radius:999px;padding:7px 15px;cursor:pointer;
+  border:1px solid var(--hairline);background:#fff;color:var(--ink-2);
+}
+.chip.on{border-color:var(--accent-line);background:var(--accent);color:#fff}
+.hint{margin:9px 0 0;font-size:12px;color:var(--ink-3);line-height:1.7}
+.warn{margin:0 0 12px;font-size:12px;color:var(--accent)}
+.warn[hidden]{display:none}
+
+.cards{margin-top:34px;border-top:1px solid var(--hairline);padding-top:22px}
+.cards[hidden]{display:none}
+.cards h2{font-size:14px;font-weight:500;letter-spacing:.1em;color:var(--ink-2);margin:0 0 8px}
+.card{border:1px solid var(--hairline);border-radius:10px;padding:14px;margin-top:12px;background:#fff}
+.card .who{font-size:13px;color:var(--ink-2)}
+.card .txt{white-space:pre-wrap;word-break:break-all;font-size:13px;line-height:1.75;margin-top:6px;color:var(--ink)}
+.card .act{margin-top:11px}
+.copy{
+  font-family:inherit;font-size:13px;border-radius:8px;padding:6px 15px;cursor:pointer;
+  border:1px solid var(--hairline);background:#fff;color:var(--ink-2);
+}
 
 .log{margin-top:30px;border-top:1px solid var(--hairline);padding-top:18px}
 .log[hidden]{display:none}
@@ -151,7 +187,7 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .log .idx{font-size:11px;color:var(--ink-3);letter-spacing:.06em}
 .log .txt{display:block;color:var(--ink);margin-top:2px}
 .log .nul{color:var(--ink-3)}
-.log .sig{font-size:12px;color:var(--ink-3)}
+.log .sig{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
 
 .block{margin-top:52px;padding-top:26px;border-top:1px solid var(--hairline)}
 .block h2{font-size:14px;font-weight:500;letter-spacing:.1em;color:var(--ink-2);margin:0 0 12px}
@@ -183,8 +219,19 @@ footer a{color:var(--ink-2)}
   <p class="lede">
     徐福什么大事都没做成。他没能阻止战争，也没能救下所有人。<br>
     他从头到尾只做了一件事——<em>让眼前这个人吃上一顿热饭。</em><br>
-    这里有一张桌子，门开着，还有位子。坐下来，点一道菜。
+    这里有一张桌子，门开着，还有位子。<br>
+    先请一个人坐下，再替他点一道他爱吃的。
   </p>
+
+  <div class="guestcard" id="guestCard" hidden>
+    <div class="gc-eyebrow">有人给你留了副碗筷</div>
+    <div class="gc-line" id="gcLine"></div>
+    <div class="gc-dish" id="gcDish"></div>
+    <div class="gc-msg" id="gcMsg"></div>
+    <div class="gc-actions">
+      <button class="btn" id="gcAccept">我也摆一副碗筷</button>
+    </div>
+  </div>
 
   <div class="stage">
     <div class="table-scaler" id="scaler">
@@ -192,7 +239,7 @@ footer a{color:var(--ink-2)}
         <div class="susan" id="susan"></div>
         <div class="center">
           <div class="no" id="tableNo">第 1 桌</div>
-          <div class="left" id="tableLeft">还差 5 副碗筷</div>
+          <div class="left" id="tableLeft">还有 9 个空位</div>
           <div class="brand">龙 餐 馆</div>
         </div>
       </div>
@@ -200,8 +247,13 @@ footer a{color:var(--ink-2)}
   </div>
 
   <div class="readout idle" id="readout">
-    <div class="q" id="roQ">把指针放到一副碗筷或一盘菜上，看看它是什么。</div>
+    <div class="q" id="roQ">把指针放到一副碗筷上，看看那是谁的位子。</div>
     <div class="by" id="roBy"></div>
+  </div>
+
+  <div class="table-actions">
+    <button class="btn" id="inviteBtn">请一个人坐下</button>
+    <span class="ta-note">他来不了，也可以坐下。这副碗筷就只是留着。</span>
   </div>
 
   <section class="menu">
@@ -215,27 +267,57 @@ footer a{color:var(--ink-2)}
     </div>
   </section>
 
-  <div class="form" id="form" hidden>
+  <div class="form" id="inviteForm" hidden>
+    <div class="picked">请一个人坐下</div>
+    <div class="pickedname">你想请谁一起吃饭</div>
+    <div class="pickednote">他来不了也没关系。名字写下来，他就坐在这儿，碗筷照摆，饭照盛。</div>
+    <p class="warn" id="inviteWarn" hidden>先写个名字。哪怕只是一个称呼。</p>
+    <div class="field">
+      <label for="gName">名字</label>
+      <input id="gName" type="text" maxlength="12" placeholder="妈 / 老张 / 一个吃不上饭的孩子">
+    </div>
+    <div class="field">
+      <label>他还回得来吗</label>
+      <div class="choice">
+        <button class="chip on" id="kindLive" type="button">他还会来</button>
+        <button class="chip" id="kindKept" type="button">他来不了了</button>
+      </div>
+      <p class="hint" id="kindHint">还在的人，你可以把那句话真的递给他——复制下来，发过去就行。</p>
+    </div>
+    <div class="field">
+      <label for="gMsg">想对他说的一句话（可以不写）</label>
+      <textarea id="gMsg" maxlength="40" placeholder="好好吃饭"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn" id="inviteSubmit">请他坐下</button>
+      <button class="btn ghost" id="inviteCancel">等一下</button>
+      <span class="counter" id="inviteCounter"></span>
+    </div>
+  </div>
+
+  <div class="form" id="orderForm" hidden>
     <div class="picked">你点的是</div>
     <div class="pickedname" id="pickedName"></div>
     <div class="pickednote" id="pickedNote"></div>
     <div class="field">
-      <label for="q">留一句话，压在这副碗筷边上（可以不写）</label>
-      <textarea id="q" maxlength="40" placeholder="想说点什么，留给不在场的这个人"></textarea>
-    </div>
-    <div class="field">
-      <label for="by">署名（可以不写）</label>
-      <input id="by" type="text" maxlength="12" placeholder="坐下吃饭不需要报上名来">
+      <label>这盘端给谁</label>
+      <div class="choice" id="whoList"></div>
+      <p class="hint">你知道他爱吃什么——这件事，本来就不用问。</p>
     </div>
     <div class="row">
-      <button class="btn" id="submit">端上来</button>
-      <button class="btn ghost" id="cancel">换一道</button>
-      <span class="counter" id="counter"></span>
+      <button class="btn" id="orderSubmit">端上来</button>
+      <button class="btn ghost" id="orderCancel">换一道</button>
     </div>
   </div>
 
+  <section class="cards" id="cardsSection" hidden>
+    <h2>可以递给他的那句话</h2>
+    <p class="muted">复制下来，发给他。他打开链接，就能看见你留的这副碗筷。</p>
+    <div id="cardList"></div>
+  </section>
+
   <section class="log" id="logSection" hidden>
-    <h2>你端上桌的菜</h2>
+    <h2>这桌上发生过什么</h2>
     <ol id="log"></ol>
   </section>
 
@@ -243,6 +325,14 @@ footer a{color:var(--ink-2)}
     <p class="truth">
       这一桌菜救不了任何一个孩子。<br>
       <span class="soft">它只是让你和我，记住还有人没有这张桌子。</span>
+    </p>
+  </div>
+
+  <div class="block">
+    <h2>关于「他来不了了」</h2>
+    <p class="muted">
+      你可以请一个再也来不了的人坐下。他的碗筷和别人一样盛着饭——不标注，不特别对待。<br>
+      唯一的区别是：还在的人，你能把那句话真的递过去；来不了的人，那句话只能留在这张桌子上。
     </p>
   </div>
 
@@ -285,8 +375,8 @@ footer a{color:var(--ink-2)}
 
   <footer>
     <p>
-      你点的菜和你写的话，只存在这台设备上，不会上传，也没有人能看见。<br>
-      它不是留言板，不排行、不计数、不比谁写得好。坐下吃饭这种事，排不了名。
+      你请的人和点的菜，只存在这台设备上，不会上传，也没有人能看见。<br>
+      它不是留言板，不排行、不计数、不比谁写得好。摆碗筷这种事，排不了名。
     </p>
     <p>
       联合国儿童基金会对被迫卷入冲突的孩子的定性是：这些孩子是受害者，不是加害者。
@@ -303,10 +393,11 @@ footer a{color:var(--ink-2)}
 (function(){
   "use strict";
 
-  var KEY = "liuyifuwankuai.v2";
-  var CAP = 5;
+  var KEY = "liuyifuwankuai.v3";
+  var SLOTS = 9;
   var SEAT_R = 140;
   var DISH_R = 48;
+  var DISH_R_STEP = 26;
 
   // 菜单：每一道都对着影片里的一场戏
   var DISHES = [
@@ -318,17 +409,6 @@ footer a{color:var(--ink-2)}
     { name: "发芽土豆炖牛肉", note: "故意做的。孩子拉肚子，就能多留一天。", color: "#8A5B3C" }
   ];
 
-  // 先到的五位：他们已经点过了，转盘上那几盘是他们的
-  var SEEDS = [
-    { slot: 0, dish: "饺子",       line: "上车饺子，下车面。" },
-    { slot: 2, dish: "一碗面",     line: "好好吃饭。" },
-    { slot: 4, dish: "徐福烩饭",   line: "我们不是恐怖分子，我们是厨子。" },
-    { slot: 6, dish: "荷包蛋",     line: "这些孩子是受害者，不是加害者。" },
-    { slot: 8, dish: "番茄汤",     line: "无论委屈什么，别委屈吃的。" }
-  ];
-
-  var USER_SLOTS = [1, 3, 5, 7, 9];
-
   var table   = document.getElementById("table");
   var susan   = document.getElementById("susan");
   var scaler  = document.getElementById("scaler");
@@ -338,64 +418,107 @@ footer a{color:var(--ink-2)}
   var roQ = document.getElementById("roQ");
   var roBy = document.getElementById("roBy");
   var menuList = document.getElementById("menuList");
-  var form = document.getElementById("form");
+
+  var inviteForm = document.getElementById("inviteForm");
+  var gName = document.getElementById("gName");
+  var gMsg = document.getElementById("gMsg");
+  var inviteWarn = document.getElementById("inviteWarn");
+  var kindLive = document.getElementById("kindLive");
+  var kindKept = document.getElementById("kindKept");
+  var kindHint = document.getElementById("kindHint");
+  var inviteCounter = document.getElementById("inviteCounter");
+
+  var orderForm = document.getElementById("orderForm");
   var pickedName = document.getElementById("pickedName");
   var pickedNote = document.getElementById("pickedNote");
-  var qInput = document.getElementById("q");
-  var byInput = document.getElementById("by");
-  var counter = document.getElementById("counter");
+  var whoList = document.getElementById("whoList");
+
+  var cardsSection = document.getElementById("cardsSection");
+  var cardList = document.getElementById("cardList");
   var logSection = document.getElementById("logSection");
   var logEl = document.getElementById("log");
 
-  var mine = load();
+  var guestCard = document.getElementById("guestCard");
+  var gcLine = document.getElementById("gcLine");
+  var gcDish = document.getElementById("gcDish");
+  var gcMsg = document.getElementById("gcMsg");
+
+  var guests = load();
   var picked = -1;
-  var landing = -1;
+  var whoIdx = -1;
+  var inviteKind = "invited";
+  var landing = null;
 
   function load(){
     try{
       var raw = localStorage.getItem(KEY);
       if(!raw) return [];
       var d = JSON.parse(raw);
-      return Object.prototype.toString.call(d.orders) === "[object Array]" ? d.orders : [];
+      var arr = d && d.guests;
+      if(Object.prototype.toString.call(arr) !== "[object Array]") return [];
+      var out = [];
+      for(var i = 0; i < arr.length; i++){
+        var g = arr[i];
+        if(!g || typeof g.name !== "string") continue;
+        out.push({
+          name: g.name,
+          kind: g.kind === "kept" ? "kept" : "invited",
+          msg: typeof g.msg === "string" ? g.msg : "",
+          at: typeof g.at === "number" ? g.at : Date.now(),
+          table: typeof g.table === "number" ? g.table : 0,
+          slot: typeof g.slot === "number" ? g.slot : (i % SLOTS) + 1,
+          dishes: Object.prototype.toString.call(g.dishes) === "[object Array]" ? g.dishes : []
+        });
+      }
+      return out;
     }catch(e){ return []; }
   }
   function save(){
-    try{ localStorage.setItem(KEY, JSON.stringify({ orders: mine })); }catch(e){}
+    try{ localStorage.setItem(KEY, JSON.stringify({ v: 3, guests: guests })); }catch(e){}
   }
   function dishOf(name){
     for(var i = 0; i < DISHES.length; i++){ if(DISHES[i].name === name) return DISHES[i]; }
     return DISHES[0];
   }
+  function esc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
 
   function place(el, r, slotIndex){
-    var deg = -90 + 36 * slotIndex;
+    var deg = -90 + (360 / (SLOTS + 1)) * slotIndex;
     el.style.transform = "rotate(" + deg + "deg) translateY(-" + r + "px) rotate(" + (-deg) + "deg)";
     return deg;
+  }
+
+  function curTable(){
+    var t = 0;
+    for(var i = 0; i < guests.length; i++){ if(guests[i].table > t) t = guests[i].table; }
+    return t;
+  }
+  function onTable(t){
+    var out = [];
+    for(var i = 0; i < guests.length; i++){ if(guests[i].table === t) out.push(i); }
+    return out;
   }
 
   var SEAT_SVG_STROKE = '#BA7517';
   // 一位客人面前的一套餐具。按中餐摆台：桌心在 SVG 上方(−Y)，客人自己在下方(+Y)
   function seatSVG(kind){
     var porc, rice, sauce, tea, stick, dash;
-    if(kind === "filled"){
-      porc  = 'fill="#FFFFFF" stroke="#A8A49B" stroke-width="0.6"';
-      rice  = 'fill="#F0E2CB"';
+    if(kind === "filled" || kind === "kept"){
+      porc  = kind === "kept"
+        ? 'fill="#FFFFFF" stroke="#BDB8AE" stroke-width="0.6"'
+        : 'fill="#FFFFFF" stroke="#A8A49B" stroke-width="0.6"';
+      rice  = kind === "kept" ? 'fill="#EFE7D8"' : 'fill="#F0E2CB"';
       sauce = 'fill="#C4703C"';
       tea   = 'fill="#CBA35A" opacity="0.5"';
       stick = SEAT_SVG_STROKE; dash = "";
-    }else if(kind === "mine"){
-      porc  = 'fill="#FAECE7" stroke="#D85A30" stroke-width="1.3" stroke-dasharray="4 3"';
-      rice = sauce = tea = 'fill="none"';
-      stick = '#D85A30'; dash = ' stroke-dasharray="3 3"';
     }else{
       porc  = 'fill="none" stroke="#C9C5BB" stroke-width="1" stroke-dasharray="3 3"';
       rice = sauce = tea = 'fill="none"';
       stick = '#D8D5CC'; dash = ' stroke-dasharray="2 2"';
     }
-    var breathe = kind === "mine"
-      ? '<animate attributeName="opacity" values="1;0.5;1" dur="1.9s" repeatCount="indefinite"/>'
-      : "";
-    return '<svg viewBox="0 0 78 78" aria-hidden="true"><g class="hit">' + breathe
+    return '<svg viewBox="0 0 78 78" aria-hidden="true"><g class="hit">'
       + '<circle cx="39" cy="14" r="6" ' + porc + '/>'
       + '<circle cx="39" cy="14" r="3.2" ' + tea + '/>'
       + '<circle cx="19" cy="27" r="10" ' + porc + '/>'
@@ -416,49 +539,75 @@ footer a{color:var(--ink-2)}
       + '</g></svg>';
   }
 
-  function makeDish(slotIndex, dish, isMine, hot, title){
+  function dishLabel(g){
+    if(!g.dishes.length) return "";
+    if(g.dishes.length === 1) return g.dishes[0].name;
+    return g.dishes[0].name + " 等 " + g.dishes.length + " 道";
+  }
+  function seatSub(g){
+    var d = dishLabel(g);
+    if(g.kind === "kept") return d ? ("留着 · " + d) : "留着";
+    return d;
+  }
+
+  function makeDish(slot, dish, radius, guest, hot){
     var el = document.createElement("div");
-    el.className = "dish" + (isMine ? " mine" : "") + (hot ? " hot landed" : "");
+    el.className = "dish mine" + (hot ? " hot landed" : "");
     el.innerHTML = dishSVG(dish.color) + (hot ? '<span class="steam"><i></i><i></i><i></i></span>' : "");
-    place(el, DISH_R, slotIndex);
+    place(el, radius, slot);
     el.addEventListener("mouseenter", function(){
       readout.classList.remove("idle");
       roQ.textContent = dish.name;
-      roBy.textContent = "— " + (title || dish.note);
+      roBy.textContent = "替 " + guest.name + " 点的";
     });
     return el;
   }
 
-  function makeSeat(slotIndex, kind, label, name, line){
+  function makeSeat(slot, kind, guest){
     var el = document.createElement("div");
-    el.className = "seat" + (kind !== "empty" ? " tap" : "") + (kind === "mine" ? " mine-pending" : "");
-    var deg = place(el, SEAT_R, slotIndex);
+    el.className = "seat tap";
+    var deg = place(el, SEAT_R, slot);
     el.innerHTML = '<span class="seat-set" style="transform:rotate(' + (deg + 180) + 'deg)">' + seatSVG(kind) + '</span>';
-    if(kind === "mine"){
-      el.setAttribute("role", "button");
-      el.setAttribute("tabindex", "0");
-      var go = function(e){ if(e) e.preventDefault(); openForm(-1); };
-      el.addEventListener("click", go);
-      el.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ go(e); } });
-    }
+    el.setAttribute("role", "button");
     el.setAttribute("tabindex", "0");
-    el.addEventListener("mouseenter", function(){
+
+    var show = function(){
       readout.classList.remove("idle");
-      if(kind === "filled"){ roQ.textContent = "「" + line + "」"; roBy.textContent = "— " + name; }
-      else if(kind === "mine"){ roQ.textContent = "这里有你的位子。"; roBy.textContent = "点一道菜，坐下"; }
-      else { roQ.textContent = "这个位子还空着。"; roBy.textContent = "还有人没有这张桌子"; }
-    });
-    el.addEventListener("click", function(){
-      if(kind === "filled"){
-        readout.classList.remove("idle");
-        roQ.textContent = "「" + line + "」";
-        roBy.textContent = "— " + name;
+      if(kind === "host"){
+        roQ.textContent = "徐福 · 掌勺的";
+        roBy.textContent = "他的馆子门开着。你请的人，都由他来做。";
+      }else if(kind === "empty"){
+        roQ.textContent = "这个位子还空着。";
+        roBy.textContent = "点它，请一个人坐下";
+      }else{
+        var g = guest;
+        var head = g.kind === "kept" ? ("给了 " + g.name + " 留的位子") : ("你请的 " + g.name);
+        roQ.textContent = g.msg ? ("「" + g.msg + "」") : head;
+        roBy.textContent = head + (g.dishes.length ? (" · 替他点了 " + dishLabel(g)) : " · 还没点菜");
       }
+    };
+    el.addEventListener("mouseenter", show);
+    el.addEventListener("click", function(){
+      if(kind === "empty"){ openInvite(); } else { show(); }
     });
-    if(label){
+    el.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); if(kind === "empty"){ openInvite(); } else { show(); } }
+    });
+
+    if(kind !== "empty"){
       var lab = document.createElement("div");
-      lab.className = "seat-label";
-      lab.textContent = label;
+      lab.className = "seat-label" + (kind === "host" ? " host" : "") + (guest && guest.kind === "kept" ? " kept" : "");
+      var nm = document.createElement("span");
+      nm.className = "nm";
+      nm.textContent = kind === "host" ? "徐福" : guest.name;
+      lab.appendChild(nm);
+      var subText = kind === "host" ? "掌勺的" : seatSub(guest);
+      if(subText){
+        var sb = document.createElement("span");
+        sb.className = "sub";
+        sb.textContent = subText;
+        lab.appendChild(sb);
+      }
       el.appendChild(lab);
     }
     return el;
@@ -468,74 +617,140 @@ footer a{color:var(--ink-2)}
     var olds = table.querySelectorAll(".seat,.dish");
     for(var i = 0; i < olds.length; i++){ olds[i].remove(); }
 
-    var t = Math.floor(mine.length / CAP);
-    var f = mine.length % CAP;
+    var t = curTable();
+    var idxs = onTable(t);
 
-    // 转盘上的菜：先到那五位点的 + 这一桌你点的
-    for(var s = 0; s < SEEDS.length; s++){
-      var sd = dishOf(SEEDS[s].dish);
-      susan.appendChild(makeDish(SEEDS[s].slot, sd, false, false, SEEDS[s].line));
-    }
-    for(var u = 0; u < f; u++){
-      var rec = mine[t * CAP + u];
-      susan.appendChild(makeDish(USER_SLOTS[u], dishOf(rec.dish), true, landing === t * CAP + u, null));
-    }
+    table.appendChild(makeSeat(0, "host", null));
 
-    // 座位
-    for(var k = 0; k < SEEDS.length; k++){
-      table.appendChild(makeSeat(SEEDS[k].slot, "filled", SEEDS[k].dish, SEEDS[k].dish, SEEDS[k].line));
-    }
-    for(var j = 0; j < USER_SLOTS.length; j++){
-      if(j < f){
-        var r = mine[t * CAP + j];
-        table.appendChild(makeSeat(USER_SLOTS[j], "filled", r.dish, "你端上来的 " + r.dish, r.q || "（什么都没写，但坐下了）"));
-      }else if(j === f){
-        table.appendChild(makeSeat(USER_SLOTS[j], "mine", "你来点", "", ""));
-      }else{
-        table.appendChild(makeSeat(USER_SLOTS[j], "empty", "", "", ""));
+    var bySlot = {};
+    for(var a = 0; a < idxs.length; a++){ bySlot[guests[idxs[a]].slot] = guests[idxs[a]]; }
+
+    for(var s = 1; s <= SLOTS; s++){
+      var g = bySlot[s];
+      if(!g){
+        table.appendChild(makeSeat(s, "empty", null));
+        continue;
+      }
+      table.appendChild(makeSeat(s, g.kind, g));
+      for(var k = 0; k < g.dishes.length; k++){
+        var hot = landing && landing.name === g.name && landing.di === k;
+        susan.appendChild(makeDish(g.slot, dishOf(g.dishes[k].name), DISH_R + DISH_R_STEP * k, g, hot));
       }
     }
 
+    var left = SLOTS - idxs.length;
     tableNo.textContent = "第 " + (t + 1) + " 桌";
-    tableLeft.textContent = "还差 " + (CAP - f) + " 副";
+    tableLeft.textContent = left > 0 ? ("还有 " + left + " 个空位") : "这一桌坐满了";
 
+    renderCards();
     renderLog();
 
-    if(landing >= 0){
-      var last = mine[landing];
+    if(landing){
+      var lg = landing.guest;
       readout.classList.remove("idle");
-      if(f === 0 && mine.length > 0){
-        roQ.textContent = "这一桌满了。转盘收起来，再开一桌。";
-        roBy.textContent = "第 " + (t + 1) + " 桌，还是空的";
-      }else if(last.q){
-        roQ.textContent = "「" + last.q + "」";
-        roBy.textContent = last.dish + " 上桌了，这是你第 " + mine.length + " 道";
-      }else{
-        roQ.textContent = last.dish + " 上桌了，这是你第 " + mine.length + " 道。";
-        roBy.textContent = "什么都没写，但坐下了";
-      }
-      landing = -1;
+      roQ.textContent = lg.dishes[landing.di].name + " 上桌了。";
+      roBy.textContent = lg.kind === "kept"
+        ? ("替 " + lg.name + " 点的。他来不了，碗筷留着。")
+        : ("替 " + lg.name + " 点的");
+      landing = null;
+    }
+  }
+
+  function cardUrl(g){
+    var base = location.href.split("?")[0];
+    var q = "?to=" + encodeURIComponent(g.name);
+    if(g.msg) q += "&msg=" + encodeURIComponent(g.msg);
+    if(g.dishes.length) q += "&dish=" + encodeURIComponent(g.dishes[g.dishes.length - 1].name);
+    return base + q;
+  }
+  function cardText(g){
+    var s = g.name + "，我给你留了副碗筷。";
+    if(g.dishes.length) s += "替你点了" + g.dishes[g.dishes.length - 1].name + "。";
+    if(g.msg) s += "「" + g.msg + "」";
+    s += "\n" + cardUrl(g);
+    return s;
+  }
+
+  function copyText(text, btn){
+    var done = function(){
+      var old = btn.getAttribute("data-old") || "复制这句话";
+      btn.textContent = "已复制";
+      setTimeout(function(){ btn.textContent = old; }, 1800);
+    };
+    var fallback = function(){
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "readonly");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try{ ok = document.execCommand ? document.execCommand("copy") : false; }catch(e){ ok = false; }
+      ta.remove();
+      if(ok){ done(); } else { btn.textContent = "长按选中即可复制"; }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      try{
+        navigator.clipboard.writeText(text).then(done, fallback);
+        return;
+      }catch(e){}
+    }
+    fallback();
+  }
+
+  function renderCards(){
+    var live = [];
+    for(var i = 0; i < guests.length; i++){ if(guests[i].kind === "invited") live.push(guests[i]); }
+    if(!live.length){ cardsSection.hidden = true; cardList.innerHTML = ""; return; }
+    cardsSection.hidden = false;
+    cardList.innerHTML = "";
+    for(var j = 0; j < live.length; j++){
+      (function(g){
+        var box = document.createElement("div");
+        box.className = "card";
+        var who = document.createElement("div");
+        who.className = "who";
+        who.textContent = "给 " + g.name;
+        var txt = document.createElement("div");
+        txt.className = "txt";
+        txt.textContent = cardText(g);
+        var act = document.createElement("div");
+        act.className = "act";
+        var btn = document.createElement("button");
+        btn.className = "copy";
+        btn.type = "button";
+        btn.textContent = "复制这句话";
+        btn.setAttribute("data-old", "复制这句话");
+        btn.addEventListener("click", function(){ copyText(cardText(g), btn); });
+        act.appendChild(btn);
+        box.appendChild(who);
+        box.appendChild(txt);
+        box.appendChild(act);
+        cardList.appendChild(box);
+      })(live[j]);
     }
   }
 
   function renderLog(){
-    if(!mine.length){ logSection.hidden = true; logEl.innerHTML = ""; return; }
+    if(!guests.length){ logSection.hidden = true; logEl.innerHTML = ""; return; }
     logSection.hidden = false;
     var html = "";
-    for(var i = 0; i < mine.length; i++){
-      var o = mine[i];
-      var d = new Date(o.at);
+    for(var i = 0; i < guests.length; i++){
+      var g = guests[i];
+      var d = new Date(g.at);
       var when = (d.getMonth() + 1) + "月" + d.getDate() + "日";
-      html += '<li><span class="idx">第 ' + (i + 1) + ' 道 · ' + o.dish + ' · ' + when + '</span>'
-        + (o.q ? '<span class="txt">「' + escapeHtml(o.q) + '」</span>' : '<span class="txt nul">什么都没写，但坐下了</span>')
-        + (o.by ? '<span class="sig">' + escapeHtml(o.by) + '</span>' : '')
-        + '</li>';
+      var head = g.kind === "kept" ? ("给 " + g.name + " 留了副碗筷") : ("请了 " + g.name + " 坐下");
+      html += '<li><span class="idx">第 ' + (i + 1) + ' 位 · ' + when + ' · 第 ' + (g.table + 1) + ' 桌</span>'
+        + '<span class="txt">' + esc(head)
+        + (g.msg ? '　「' + esc(g.msg) + '」' : '')
+        + '</span>';
+      for(var k = 0; k < g.dishes.length; k++){
+        html += '<span class="sig">替 ' + esc(g.name) + ' 端上了 ' + esc(g.dishes[k].name) + '</span>';
+      }
+      html += '</li>';
     }
     logEl.innerHTML = html;
-  }
-
-  function escapeHtml(s){
-    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   }
 
   function buildMenu(){
@@ -550,44 +765,124 @@ footer a{color:var(--ink-2)}
     var items = menuList.querySelectorAll(".menu-item");
     for(var j = 0; j < items.length; j++){
       (function(el){
-        var pick = function(){ openForm(parseInt(el.getAttribute("data-i"), 10)); };
+        var pick = function(){ openOrder(parseInt(el.getAttribute("data-i"), 10)); };
         el.addEventListener("click", pick);
         el.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(); } });
       })(items[j]);
     }
   }
 
-  function openForm(i){
-    picked = i;
-    form.hidden = false;
-    if(i >= 0){
-      pickedName.textContent = DISHES[i].name;
-      pickedNote.textContent = DISHES[i].note;
-    }else{
-      pickedName.textContent = "还没点";
-      pickedNote.textContent = "往下面的菜单里挑一道。点好了，它就会落到中间那个转盘上。";
-    }
-    qInput.value = "";
-    byInput.value = "";
-    updateCounter();
-    qInput.focus();
-    form.scrollIntoView({ behavior: "smooth", block: "center" });
+  function openInvite(){
+    orderForm.hidden = true;
+    picked = -1;
+    inviteForm.hidden = false;
+    inviteWarn.hidden = true;
+    setKind("invited");
+    gName.value = "";
+    gMsg.value = "";
+    inviteCounter.textContent = "0 / 40";
+    gName.focus();
+    inviteForm.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  function updateCounter(){ counter.textContent = qInput.value.length + " / 40"; }
+  function setKind(k){
+    inviteKind = k;
+    kindLive.className = "chip" + (k === "invited" ? " on" : "");
+    kindKept.className = "chip" + (k === "kept" ? " on" : "");
+    kindHint.textContent = k === "invited"
+      ? "还在的人，你可以把那句话真的递给他——复制下来，发过去就行。"
+      : "来不了的人，这句话就只留在这张桌子上。碗筷照摆，饭照盛。";
+  }
 
-  function submit(){
-    if(picked < 0){ return; }
-    mine.push({
-      dish: DISHES[picked].name,
-      q: qInput.value.trim(),
-      by: byInput.value.trim(),
-      at: Date.now()
+  function submitInvite(){
+    var name = gName.value.trim();
+    if(!name){
+      inviteWarn.hidden = false;
+      gName.focus();
+      return;
+    }
+    var t = curTable();
+    var idxs = onTable(t);
+    var used = {};
+    for(var i = 0; i < idxs.length; i++){ used[guests[idxs[i]].slot] = 1; }
+    var slot = 0;
+    for(var s = 1; s <= SLOTS; s++){ if(!used[s]){ slot = s; break; } }
+    if(!slot){ t = t + 1; slot = 1; }
+
+    guests.push({
+      name: name,
+      kind: inviteKind,
+      msg: gMsg.value.trim(),
+      at: Date.now(),
+      table: t,
+      slot: slot,
+      dishes: []
     });
     save();
-    landing = mine.length - 1;
+    inviteForm.hidden = true;
+    render();
+    readout.classList.remove("idle");
+    if(inviteKind === "kept"){
+      roQ.textContent = "给 " + name + " 留了副碗筷。";
+      roBy.textContent = "他来不了了，这副碗筷就一直留着";
+    }else{
+      roQ.textContent = name + " 坐下了。";
+      roBy.textContent = "往下面菜单里挑一道他爱吃的";
+    }
+    var forms = document.getElementById("table");
+    if(forms && forms.scrollIntoView){ forms.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  }
+
+  function openOrder(i){
+    var t = curTable();
+    var idxs = onTable(t);
+    if(!idxs.length){
+      inviteForm.hidden = true;
+      readout.classList.remove("idle");
+      roQ.textContent = "先请一个人坐下。";
+      roBy.textContent = "吃饭是和人一起做的事——一个人点菜，这桌没有味道";
+      table.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    picked = i;
+    inviteForm.hidden = true;
+    orderForm.hidden = false;
+    pickedName.textContent = DISHES[i].name;
+    pickedNote.textContent = DISHES[i].note;
+
+    whoIdx = -1;
+    for(var a = 0; a < idxs.length; a++){ if(!guests[idxs[a]].dishes.length){ whoIdx = idxs[a]; break; } }
+    if(whoIdx < 0) whoIdx = idxs[0];
+    buildWho(idxs);
+    orderForm.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function buildWho(idxs){
+    whoList.innerHTML = "";
+    for(var a = 0; a < idxs.length; a++){
+      (function(gi){
+        var g = guests[gi];
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (gi === whoIdx ? " on" : "");
+        b.textContent = g.name + (g.dishes.length ? "（已有 " + g.dishes.length + " 道）" : "");
+        b.addEventListener("click", function(){
+          whoIdx = gi;
+          buildWho(idxs);
+        });
+        whoList.appendChild(b);
+      })(idxs[a]);
+    }
+  }
+
+  function submitOrder(){
+    if(picked < 0 || whoIdx < 0) return;
+    var g = guests[whoIdx];
+    g.dishes.push({ name: DISHES[picked].name, at: Date.now() });
+    save();
+    landing = { name: g.name, di: g.dishes.length - 1, guest: g };
     picked = -1;
-    form.hidden = true;
+    orderForm.hidden = true;
     render();
   }
 
@@ -598,16 +893,41 @@ footer a{color:var(--ink-2)}
     scaler.style.height = (400 * s) + "px";
   }
 
-  qInput.addEventListener("input", updateCounter);
-  document.getElementById("submit").addEventListener("click", submit);
-  document.getElementById("cancel").addEventListener("click", function(){ form.hidden = true; picked = -1; });
-  qInput.addEventListener("keydown", function(e){ if((e.metaKey || e.ctrlKey) && e.key === "Enter"){ submit(); } });
+  function showGuestCard(){
+    var to = "", msg = "", dish = "";
+    try{
+      var p = new URLSearchParams(location.search);
+      to = (p.get("to") || "").trim();
+      msg = (p.get("msg") || "").trim();
+      dish = (p.get("dish") || "").trim();
+    }catch(e){ return; }
+    if(!to) return;
+    guestCard.hidden = false;
+    gcLine.textContent = to + "，这句话是留给你的。";
+    gcDish.textContent = dish ? ("替你点了 " + dish + "。") : "";
+    gcMsg.textContent = msg ? ("「" + msg + "」") : "";
+  }
+
+  gMsg.addEventListener("input", function(){ inviteCounter.textContent = gMsg.value.length + " / 40"; });
+  kindLive.addEventListener("click", function(){ setKind("invited"); });
+  kindKept.addEventListener("click", function(){ setKind("kept"); });
+  document.getElementById("inviteBtn").addEventListener("click", openInvite);
+  document.getElementById("inviteSubmit").addEventListener("click", submitInvite);
+  document.getElementById("inviteCancel").addEventListener("click", function(){ inviteForm.hidden = true; });
+  gName.addEventListener("keydown", function(e){ if(e.key === "Enter"){ submitInvite(); } });
+  document.getElementById("orderSubmit").addEventListener("click", submitOrder);
+  document.getElementById("orderCancel").addEventListener("click", function(){ orderForm.hidden = true; picked = -1; });
+  document.getElementById("gcAccept").addEventListener("click", function(){
+    guestCard.hidden = true;
+    try{ history.replaceState(null, "", location.pathname); }catch(e){}
+    openInvite();
+  });
   document.getElementById("reset").addEventListener("click", function(){
-    if(window.confirm("把你点的菜全部撤下去？桌子会回到最开始的样子。")){
-      mine = [];
+    if(window.confirm("把请来的人全部送走？桌子会回到最开始的样子。")){
+      guests = [];
       save();
       render();
-      readout.classList.add("idle");
+      readout.classList.remove("idle");
       roQ.textContent = "桌子收拾干净了。位子还留着。";
       roBy.textContent = "";
     }
@@ -617,6 +937,7 @@ footer a{color:var(--ink-2)}
   buildMenu();
   fit();
   render();
+  showGuestCard();
 })();
 </script>
 </body>
