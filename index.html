@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>留一副碗筷 · 龙餐馆今天也开门</title>
-<meta name="description" content="一张永远留着空位的桌子。请一个人坐下，点一道这个人爱吃的。来不了，位子也留着。">
+<title>留一副碗筷 · 好好吃饭</title>
+<meta name="description" content="一张永远留着空位的桌子。请一个人坐下，点一道这个人爱吃的，留一句话：好好吃饭。来不了，位子也留着。">
 <style>
 :root{
   --paper:#FBFAF7;
@@ -38,6 +38,7 @@ body{
 }
 main{max-width:600px;margin:0 auto;padding:56px 20px 80px}
 h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
+.soul{margin:12px 0 0;font-size:17px;font-weight:500;letter-spacing:.26em;color:var(--accent)}
 .eyebrow{font-size:12px;color:var(--ink-3);letter-spacing:.14em;margin:0}
 .lede{margin:20px 0 0;color:var(--ink-2);font-size:14px}
 .lede em{font-style:normal;color:var(--ink)}
@@ -216,6 +217,7 @@ footer a{color:var(--ink-2)}
 
   <p class="eyebrow">电影《欢迎来龙餐馆》之后</p>
   <h1>留一副碗筷</h1>
+  <p class="soul">好 好 吃 饭</p>
   <p class="lede">
     徐福没能阻止战争，也没能救下所有人。<br>
     他从头到尾只做了一件事——<em>让眼前这个人吃上一顿热饭。</em><br>
@@ -289,6 +291,7 @@ footer a{color:var(--ink-2)}
     <div class="field">
       <label for="gMsg">想留给这个人的一句话（可以不写）</label>
       <textarea id="gMsg" maxlength="40" placeholder="好好吃饭"></textarea>
+      <p class="hint">不知道写什么，就留这四个字。</p>
     </div>
     <div class="row">
       <button class="btn" id="inviteSubmit">请这个人坐下</button>
