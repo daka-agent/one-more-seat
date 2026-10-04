@@ -125,20 +125,69 @@ h1{font-size:27px;font-weight:500;letter-spacing:.06em;margin:14px 0 0}
 .menu-head{text-align:center;font-size:14px;font-weight:500;letter-spacing:.35em}
 .menu-sub{text-align:center;font-size:11px;color:var(--ink-3);letter-spacing:.1em;margin-top:3px}
 .menu-rule{height:1px;background:var(--hairline);margin:14px 0 4px}
-.menu-sec{
-  font-size:11px;letter-spacing:.18em;color:var(--ink-3);
-  margin:18px 0 4px;padding:12px 10px 0;border-top:1px solid var(--hairline);
+
+.book{
+  margin-top:14px;display:flex;flex-direction:column;
+  border:1px solid var(--wood-line);border-radius:12px;background:var(--plate);overflow:hidden;
 }
-.menu-sec:first-child{margin-top:0;padding-top:0;border-top:none}
+.book-main{flex:1;min-width:0;padding:14px 14px 10px}
+.book-marks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.book-mark{
+  font-family:inherit;cursor:pointer;
+  border:1px solid var(--wood-line);background:var(--wood);color:var(--ink-2);
+  border-radius:999px;padding:4px 11px;font-size:12px;line-height:1.5;
+  display:inline-flex;align-items:baseline;gap:5px;
+}
+.book-mark .n{font-size:10px;color:var(--ink-3)}
+.book-mark.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.book-mark.on .n{color:rgba(255,255,255,.72)}
+
+.page{}
+.page[hidden]{display:none}
+.page-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:6px;border-bottom:1px solid var(--hairline)}
+.menu-sec{font-size:12px;letter-spacing:.18em;color:var(--ink-2);margin:0;padding:0}
+.page-no{font-size:11px;color:var(--ink-3);letter-spacing:.08em}
 .menu-item{
-  display:flex;gap:12px;align-items:baseline;
-  padding:11px 10px;border-bottom:1px solid rgba(0,0,0,.05);
-  cursor:pointer;border-radius:8px;
+  display:flex;gap:10px;align-items:baseline;
+  padding:10px 2px;border-bottom:1px solid rgba(0,0,0,.05);
+  cursor:pointer;
 }
 .menu-item:hover{background:var(--card)}
 .menu-item .body{flex:1;min-width:0}
+.menu-item .row1{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .menu-name{font-size:14px}
+.menu-mark{flex:0 0 auto;font-size:11px;color:var(--accent);letter-spacing:.06em}
 .menu-note{font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:2px}
+
+.book-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}
+.book-turn{
+  font-family:inherit;cursor:pointer;background:none;color:var(--ink-2);
+  border:1px solid var(--hairline);border-radius:999px;padding:4px 13px;font-size:12px;
+}
+.book-turn[disabled]{opacity:.42;cursor:default}
+.book-count{font-size:11px;color:var(--ink-3);letter-spacing:.06em}
+
+.book-note{margin-top:10px;padding:14px;border:1px dashed var(--wood-line);border-radius:12px;background:var(--wood)}
+.book-note .form{border:none;background:transparent;padding:0;margin:0}
+.book-note .pickedname{font-size:15px}
+.book-note .field{margin-top:12px}
+.note-idle .ni-t{font-size:12px;letter-spacing:.14em;color:var(--ink-3)}
+.note-idle p{margin:6px 0 0;font-size:12px;line-height:1.7;color:var(--ink-2)}
+.form:not([hidden]) ~ .note-idle{display:none}
+
+@media (min-width:760px){
+  .book{flex-direction:row;align-items:stretch}
+  .book-main{order:1}
+  .book-marks{
+    order:2;flex:0 0 96px;flex-direction:column;flex-wrap:nowrap;
+    margin:0;padding:14px 8px;gap:6px;
+    background:var(--wood);border-left:1px dashed var(--wood-line);
+  }
+  .book-mark{
+    border-radius:8px 0 0 8px;border-right:none;
+    justify-content:flex-end;padding:5px 10px;
+  }
+}
 .menu-foot{margin-top:14px;font-size:12px;color:var(--ink-2);line-height:1.75}
 
 .form{margin:16px auto 0;padding:18px;border:1px solid var(--hairline);border-radius:12px;background:#fff}
@@ -267,7 +316,37 @@ footer a{color:var(--ink-2)}
     <div class="menu-head">菜&nbsp;&nbsp;单</div>
     <div class="menu-sub">今天也开门</div>
     <div class="menu-rule"></div>
-    <div id="menuList"></div>
+    <div class="book">
+      <div class="book-main">
+        <div class="book-marks" id="bookMarks"></div>
+        <div class="book-pages" id="menuList"></div>
+        <div class="book-nav">
+          <button class="book-turn" id="prevPage" type="button">上一页</button>
+          <span class="book-count" id="pageCount"></span>
+          <button class="book-turn" id="nextPage" type="button">下一页</button>
+        </div>
+      </div>
+    </div>
+    <div class="book-note">
+      <div class="form" id="orderForm" hidden>
+        <div class="picked">你点的是</div>
+        <div class="pickedname" id="pickedName"></div>
+        <div class="pickednote" id="pickedNote"></div>
+        <div class="field">
+          <label>这盘端给谁</label>
+          <div class="choice" id="whoList"></div>
+          <p class="hint">你知道这个人爱吃什么——这件事，本来就不用问。</p>
+        </div>
+        <div class="row">
+          <button class="btn" id="orderSubmit">端上来</button>
+          <button class="btn ghost" id="orderCancel">换一道</button>
+        </div>
+      </div>
+      <div class="note-idle">
+        <div class="ni-t">还没点菜</div>
+        <p>点一道，这一页就替它写下来历。<br>然后在这儿，把它端到你请的那个人面前。</p>
+      </div>
+    </div>
     <div class="menu-foot">
       这一栏本来该写着价钱。我们把它空着——<strong style="font-weight:500;">这桌饭不要钱。</strong>不收打赏，也不代任何人捐款。<br>
       想知道一顿饭的分量：在这张桌子外面，一个孩子吃一顿校园餐，平均约 US$0.25。这个数在下头有完整的出处。<br>
@@ -303,21 +382,6 @@ footer a{color:var(--ink-2)}
       <button class="btn" id="inviteSubmit">请这个人坐下</button>
       <button class="btn ghost" id="inviteCancel">再想想</button>
       <span class="counter" id="inviteCounter"></span>
-    </div>
-  </div>
-
-  <div class="form" id="orderForm" hidden>
-    <div class="picked">你点的是</div>
-    <div class="pickedname" id="pickedName"></div>
-    <div class="pickednote" id="pickedNote"></div>
-    <div class="field">
-      <label>这盘端给谁</label>
-      <div class="choice" id="whoList"></div>
-      <p class="hint">你知道这个人爱吃什么——这件事，本来就不用问。</p>
-    </div>
-    <div class="row">
-      <button class="btn" id="orderSubmit">端上来</button>
-      <button class="btn ghost" id="orderCancel">换一道</button>
     </div>
   </div>
 
@@ -474,6 +538,11 @@ footer a{color:var(--ink-2)}
   var roQ = document.getElementById("roQ");
   var roBy = document.getElementById("roBy");
   var menuList = document.getElementById("menuList");
+  var bookMarks = document.getElementById("bookMarks");
+  var pageCount = document.getElementById("pageCount");
+  var prevPage = document.getElementById("prevPage");
+  var nextPage = document.getElementById("nextPage");
+  var menuPage = 0;
 
   var inviteForm = document.getElementById("inviteForm");
   var gName = document.getElementById("gName");
@@ -702,6 +771,7 @@ footer a{color:var(--ink-2)}
 
     renderCards();
     renderLog();
+    refreshMenuMarks();
 
     if(landing){
       var lg = landing.guest;
@@ -811,19 +881,75 @@ footer a{color:var(--ink-2)}
     logEl.innerHTML = html;
   }
 
-  function buildMenu(){
-    var html = "", sec = null;
+  function secOrder(){
+    var order = [];
     for(var i = 0; i < DISHES.length; i++){
+      if(!order.length || order[order.length - 1] !== DISHES[i].sec) order.push(DISHES[i].sec);
+    }
+    return order;
+  }
+
+  function turnTo(p){
+    var pages = menuList.querySelectorAll(".page");
+    if(!pages.length) return;
+    if(p < 0) p = 0;
+    if(p > pages.length - 1) p = pages.length - 1;
+    menuPage = p;
+    for(var i = 0; i < pages.length; i++){
+      pages[i].hidden = parseInt(pages[i].getAttribute("data-p"), 10) !== p;
+    }
+    var mks = bookMarks.querySelectorAll(".book-mark");
+    for(var j = 0; j < mks.length; j++){
+      var on = parseInt(mks[j].getAttribute("data-p"), 10) === p;
+      mks[j].className = "book-mark" + (on ? " on" : "");
+      mks[j].setAttribute("aria-current", on ? "true" : "false");
+    }
+    pageCount.textContent = "第 " + (p + 1) + " 页 / 共 " + pages.length + " 页";
+    prevPage.disabled = (p === 0);
+    nextPage.disabled = (p === pages.length - 1);
+  }
+
+  function buildMenu(){
+    var order = secOrder();
+    var counts = {}, i;
+    for(i = 0; i < order.length; i++){ counts[order[i]] = 0; }
+    for(i = 0; i < DISHES.length; i++){ counts[DISHES[i].sec]++; }
+
+    var marks = "";
+    for(i = 0; i < order.length; i++){
+      marks += '<button class="book-mark" type="button" data-p="' + i + '">'
+        + order[i] + '<span class="n">' + counts[order[i]] + '</span></button>';
+    }
+    bookMarks.innerHTML = marks;
+    var mks = bookMarks.querySelectorAll(".book-mark");
+    for(i = 0; i < mks.length; i++){
+      (function(el){
+        el.addEventListener("click", function(){ turnTo(parseInt(el.getAttribute("data-p"), 10)); });
+      })(mks[i]);
+    }
+
+    var html = "", sec = null, pi = -1;
+    for(i = 0; i < DISHES.length; i++){
       if(DISHES[i].sec !== sec){
+        if(pi >= 0) html += '</div>';
         sec = DISHES[i].sec;
-        html += '<div class="menu-sec">' + sec + '</div>';
+        pi++;
+        html += '<div class="page" data-p="' + pi + '">'
+          + '<div class="page-head">'
+          + '<div class="menu-sec">' + sec + '</div>'
+          + '<div class="page-no">第 ' + (pi + 1) + ' 页 / 共 ' + order.length + ' 页</div>'
+          + '</div>';
       }
       html += '<div class="menu-item" data-i="' + i + '" tabindex="0" role="button">'
-        + '<div class="body"><div class="menu-name">' + DISHES[i].name + '</div>'
-        + '<div class="menu-note">' + DISHES[i].note + '</div></div>'
-        + '</div>';
+        + '<div class="body">'
+        + '<div class="row1"><span class="menu-name">' + DISHES[i].name + '</span>'
+        + '<span class="menu-mark" data-name="' + DISHES[i].name + '"></span></div>'
+        + '<div class="menu-note">' + DISHES[i].note + '</div>'
+        + '</div></div>';
     }
+    if(pi >= 0) html += '</div>';
     menuList.innerHTML = html;
+
     var items = menuList.querySelectorAll(".menu-item");
     for(var j = 0; j < items.length; j++){
       (function(el){
@@ -831,6 +957,22 @@ footer a{color:var(--ink-2)}
         el.addEventListener("click", pick);
         el.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(); } });
       })(items[j]);
+    }
+    turnTo(menuPage);
+  }
+
+  function refreshMenuMarks(){
+    var counted = {}, i, k;
+    for(i = 0; i < guests.length; i++){
+      for(k = 0; k < guests[i].dishes.length; k++){
+        var nm = guests[i].dishes[k].name;
+        counted[nm] = (counted[nm] || 0) + 1;
+      }
+    }
+    var ms = menuList.querySelectorAll(".menu-mark");
+    for(i = 0; i < ms.length; i++){
+      var n = counted[ms[i].getAttribute("data-name")] || 0;
+      ms[i].textContent = n ? "端过" : "";
     }
   }
 
@@ -995,6 +1137,9 @@ footer a{color:var(--ink-2)}
     }
   });
   window.addEventListener("resize", fit);
+
+  prevPage.addEventListener("click", function(){ turnTo(menuPage - 1); });
+  nextPage.addEventListener("click", function(){ turnTo(menuPage + 1); });
 
   buildMenu();
   fit();
